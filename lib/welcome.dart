@@ -148,8 +148,10 @@ class welcomePage extends State<welcome> {
           FloatingActionButtonLocation.centerFloat, 0, -40),
       // appBar: AppBar(title: Text('Welcome'),),
       body: new Container(
+        // padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
             image: new DecorationImage(
+          alignment: Alignment(0.0, 1.0),
           image: new ExactAssetImage('assets/images/welcome_bg.png'),
           fit: BoxFit.cover,
         )),

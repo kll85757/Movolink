@@ -106,8 +106,8 @@ class InfoState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         // padding:EdgeInsets.only(left: 10),
-        titleSpacing: -20,
-        title: Text('Back'),
+        titleSpacing: -10.sp,
+        // title: Text('Back'),
         backgroundColor: Color(0xFFFFFFFF),
         shadowColor: Colors.transparent,
         centerTitle: false,
