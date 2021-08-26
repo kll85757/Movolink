@@ -3,22 +3,44 @@ import 'package:MovoLink/StockManager.dart';
 import 'package:MovoLink/welcome.dart';
 import 'package:MovoLink/deviceInfo.dart';
 import 'package:MovoLink/deviceList.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:MovoLink/wave.dart';
 
-void main()=> runApp(RootArea());
 
-class RootArea extends StatelessWidget {
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+  // ScreenUtil.instance = ScreenUtil(width: 750, height: 1334);
+  runApp(MyApp());
+} 
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',  //配置默认访问路径
-      home: HomePage(),
+    return ScreenUtilInit(
+      designSize: Size(360, 690),
+      builder: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Color(0xFF75a137),
+          fontFamily: 'Ubuntu',
+          textTheme: TextTheme(
+              //To support the following, you need to use the first initialization method
+              button: TextStyle(fontSize: 18.sp),
+              ),
+        ),
+        initialRoute: '/main', //配置默认访问路径
+        home: HomePage(),
         routes: {
           //需要使用context指定上下文
-          '/StockManager': (context) => StockManager(),//入出库
-          '/welcome': (context) => welcome(),//紐づけ
-          '/deviceInfo': (context) => Info(),//
-          '/deviceList': (context) => KS(),//
+          '/wave': (context) => WithBuilder(),//
+          '/main': (context) => HomePage(), //
+          '/welcome': (context) => welcome(), //
+          '/deviceInfo': (context) => DeviceInfo(), //
+          '/deviceList': (context) => DeviceList(), //
         },
+      ),
     );
   }
 }
@@ -121,7 +143,7 @@ Widget listItem(BuildContext context,String menuText){
 
 void _goToPage(BuildContext context,title){
   if(title == '入出庫登録'){
-    Navigator.pushNamed(context, '/StockManager');
+    Navigator.pushNamed(context, '/wave');
   }else if(title == 'Welcome'){
     Navigator.pushNamed(context, '/welcome');
   }else if(title == '紐づけ'){

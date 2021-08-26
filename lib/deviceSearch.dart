@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //welcome
 
-class welcome extends StatefulWidget {
+class DevieSearch extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return welcomePage();
+    return DevieSearchPage();
   }
 }
 
@@ -119,7 +119,7 @@ Widget titleSection = Container(
   ),
 );
 
-class welcomePage extends State<welcome> {
+class DevieSearchPage extends State<DevieSearch> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -149,10 +149,10 @@ class welcomePage extends State<welcome> {
       // appBar: AppBar(title: Text('Welcome'),),
       body: new Container(
         decoration: BoxDecoration(
-            image: new DecorationImage(
-          image: new ExactAssetImage('assets/images/welcome_bg.png'),
-          fit: BoxFit.cover,
-        )),
+            // image: new DecorationImage(
+            //   image: new ExactAssetImage('assets/images/welcome_bg.png'),
+            // )
+        ),
         child: Container(
           color: Colors.transparent,
           child: titleSection,

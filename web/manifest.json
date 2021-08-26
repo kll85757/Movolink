@@ -1,6 +1,6 @@
 {
-    "name": "movolink",
-    "short_name": "movolink",
+    "name": "Movolink",
+    "short_name": "Mlink",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
