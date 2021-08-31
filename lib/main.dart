@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:MovoLink/StockManager.dart';
-import 'package:MovoLink/welcome.dart';
-import 'package:MovoLink/deviceInfo.dart';
-import 'package:MovoLink/deviceList.dart';
+import 'package:MovoLink/views/StockManager.dart';
+import 'package:MovoLink/views/welcome.dart';
+import 'package:MovoLink/views/deviceInfo.dart';
+import 'package:MovoLink/views/deviceList.dart';
+import 'package:MovoLink/views/deviceSearch.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:MovoLink/wave.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           '/welcome': (context) => welcome(), //
           '/deviceInfo': (context) => DeviceInfo(), //
           '/deviceList': (context) => DeviceList(), //
+          '/deviceSearch': (context) => DevieSearch(), //
         },
       ),
     );
@@ -88,7 +90,7 @@ class ListState extends State<HomePage> {
   }
 }
 
-List<String> MenuNun = ['入出庫登録','Welcome','紐づけ','设备列表'];
+List<String> MenuNun = ['1','Welcome','设备检索','设备列表'];
 
 List<Widget> initListWidget(BuildContext context, List<String> MenuNun) {
   List<Widget> lists = [];
@@ -142,12 +144,12 @@ Widget listItem(BuildContext context,String menuText){
 }
 
 void _goToPage(BuildContext context,title){
-  if(title == '入出庫登録'){
+  if(title == '1'){
     Navigator.pushNamed(context, '/wave');
   }else if(title == 'Welcome'){
     Navigator.pushNamed(context, '/welcome');
-  }else if(title == '紐づけ'){
-    Navigator.pushNamed(context, '/3');
+  }else if(title == '设备检索'){
+    Navigator.pushNamed(context, '/deviceSearch');
   }else if(title == '设备列表'){
     Navigator.pushNamed(context, '/deviceList');
   }
