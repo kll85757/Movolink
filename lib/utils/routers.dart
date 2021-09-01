@@ -5,10 +5,10 @@ import 'handler.dart';
 class Routes {
   static String root = "/";
   static String welcome = "/welcome";
-  static String search = "/home";
+  static String search = "/deviceSearch";
   static String sqflitePage = "/sqflite";
-  static String eventBusPage = "/eventBus";
-  static String fileZipPage = "/fileZip";
+  static String deviceInfo = "/deviceInfo";
+  static String deviceList = "/deviceList";
 
 
   static void configureRoutes(FluroRouter router) {
@@ -18,6 +18,8 @@ class Routes {
     router.define(welcome, handler: welcomeHandler);
     router.define(search, handler: searchHandler);
     router.define(sqflitePage, handler: sqfliteHandler);
+    router.define(deviceInfo, handler: infoHandler);
+    router.define(deviceList, handler: listHandler);
 
   }
 }

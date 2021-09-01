@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-// import 'package:MovoLink/views/StockManager.dart';
-// import 'package:MovoLink/views/welcome.dart';
-// import 'package:MovoLink/views/deviceInfo.dart';
+import 'package:MovoLink/views/StockManager.dart';
+import 'package:MovoLink/views/welcome.dart';
+import 'package:MovoLink/views/deviceInfo.dart';
 import 'package:MovoLink/views/deviceList.dart';
-// import 'package:MovoLink/views/deviceSearch.dart';
+import 'package:MovoLink/views/deviceSearch.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:fluro/fluro.dart';
 import 'utils/application.dart';
 import 'utils/routers.dart';
-
+//
 // import 'package:MovoLink/wave.dart';
 
 void main() {
@@ -22,55 +22,41 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget {
+  MyApp() {
+    final router = new FluroRouter();
+    Routes.configureRoutes(router);
+    Application.routes = router;
+  }
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _MyAppState();
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: Size(360, 690),
+      builder: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Color(0xFF75a137),
+          fontFamily: 'Ubuntu',
+          textTheme: TextTheme(
+            //To support the following, you need to use the first initialization method
+            button: TextStyle(fontSize: 18.sp),
+          ),
+        ),
+        initialRoute: 'main', //配置默认访问路径
+        home: HomePage(),
+        routes: {
+          //需要使用context指定上下文
+          '/wave': (context) => WithBuilder(), //
+          '/main': (context) => HomePage(), //
+          '/welcome': (context) => welcome(), //
+          '/deviceInfo': (context) => DeviceInfo(), //
+          '/deviceList': (context) => DeviceList(), //
+          '/deviceSearch': (context) => DevieSearch(), //
+        },
+      ),
+    );
   }
 }
-
-// class _MyAppState extends State<MyApp>{
-
-// }
-
-
-// class MyApp extends StatelessWidget {
-//   MyApp() {
-//     final router = new Router();
-//     Routes.configureRoutes(router);
-//     Application.router = router;
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScreenUtilInit(
-//       designSize: Size(360, 690),
-//       builder: () => MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         theme: ThemeData(
-//           primaryColor: Color(0xFF75a137),
-//           fontFamily: 'Ubuntu',
-//           textTheme: TextTheme(
-//             //To support the following, you need to use the first initialization method
-//             button: TextStyle(fontSize: 18.sp),
-//           ),
-//         ),
-//         initialRoute: 'main', //配置默认访问路径
-//         home: HomePage(),
-//         routes: {
-//           //需要使用context指定上下文
-//           '/wave': (context) => WithBuilder(), //
-//           '/main': (context) => HomePage(), //
-//           '/welcome': (context) => welcome(), //
-//           '/deviceInfo': (context) => DeviceInfo(), //
-//           '/deviceList': (context) => DeviceList(), //
-//           '/deviceSearch': (context) => DevieSearch(), //
-//         },
-//       ),
-//     );
-//   }
-// }
 
 //配置路由规则
 //final routes = {
@@ -91,12 +77,13 @@ final userType = 'newUser';
 void _toNext(BuildContext context, userFlag) {
   if (userFlag == 'newUser') {
     // Navigator.pushNamed(context, '/welcome');
-    FluroRouter()
-        .navigateTo(context, "welcome", transition: TransitionType.fadeIn);
+    Application.routes.navigateTo(context, 'welcome', transition: TransitionType.fadeIn);
+    // FluroRouter()
+    //     .navigateTo(context, "welcome", transition: TransitionType.fadeIn);
   }
 }
 
-class _MyAppState extends State<MyApp> {
+class ListState extends State<HomePage> {
   Timer _timer;
   int count = 3;
   startTime() async {
@@ -108,7 +95,6 @@ class _MyAppState extends State<MyApp> {
         count--;
         if (count == 0) {
           // Navigator.pushNamed(context, '/welcome');
-          
 
           _toNext(context, userType);
         } else {
