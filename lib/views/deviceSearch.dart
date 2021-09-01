@@ -5,7 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 
 
-//welcome
 
 class DevieSearch extends StatefulWidget {
   @override
@@ -63,50 +62,20 @@ Widget titleSection = Container(
             Padding(padding: EdgeInsets.only(top: 130.sp)),
             Center(
               child: Lottie.asset(
-                'assets/Mobilo/M.json',
-                width: 200,
-                height: 255,
-                // repeat: false
+                'assets/lottiefiles/lego_loader.json',
+                width: 300,
+                height: 300,
+                repeat: false
               ),
             ),
             Row(
               children: [
-                
-                // Lottie.asset(
-                //   'assets/Mobilo/O.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
-                // Lottie.asset(
-                //   'assets/Mobilo/V.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
-                // Lottie.asset(
-                //   'assets/Mobilo/O.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
-                // Lottie.asset(
-                //   'assets/Mobilo/L.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
-                // Lottie.asset(
-                //   'assets/Mobilo/I.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
-                // Lottie.asset(
-                //   'assets/Mobilo/N.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
-                // Lottie.asset(
-                //   'assets/Mobilo/K.json',
-                //   width: 50,
-                //   height: 55,
-                // ),
+                // Lottie.asset('assets/Mobilo/Apostrophe.json',width: 50.sp),
+                // Lottie.asset('assets/lottiefiles/iphone_x_loading.json',width: 50.sp),
+                // Lottie.asset('assets/lottiefiles/lego_loader.json',width: 50.sp),
+                // Lottie.asset('assets/lottiefiles/judgement.json',width: 50.sp),
+            
+           
               ],
             )
             

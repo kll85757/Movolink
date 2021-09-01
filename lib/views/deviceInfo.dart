@@ -3,6 +3,8 @@ import 'package:MovoLink/utils/setting.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
+import 'dart:ui' as ui show Image;
+
 
 class DeviceInfo extends StatefulWidget {
   @override
@@ -610,6 +612,7 @@ class InfoState extends State<HomePage> {
                               child: new Container(
                                 width: 100,
                                 decoration: BoxDecoration(
+                                    // image: ,
                                     boxShadow: [
                                       BoxShadow(
                                         color: luckyGreen,
@@ -646,7 +649,9 @@ class InfoState extends State<HomePage> {
                   ],
                 ),
                 Row(
-                  children: [],
+                  children: [
+                      
+                  ],
                 ),
               ],
             ),
