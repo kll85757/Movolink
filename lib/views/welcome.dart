@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluro/fluro.dart';
+import 'package:MovoLink/utils/application.dart';
+
+
+
 
 //welcome
 
@@ -139,7 +144,9 @@ class welcomePage extends State<welcome> {
           ),
           // backgroundColor: Colors.white,
           onPressed: () {
-            Navigator.pushNamed(context, '/deviceSearch');
+            // Navigator.pushNamed(context, '/deviceSearch');
+            Application.routes.navigateTo(context, 'deviceSearch',transition: TransitionType.fadeIn);
+
           },
         ),
       ),

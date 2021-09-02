@@ -275,7 +275,7 @@ Widget listItem(BuildContext context, String menuText) {
         // focusColor: Colors.lightGreenAccent,
         hoverColor: Colors.pink,
         // highlightColor: Color(0xFFE0E0E0),
-        borderRadius: new BorderRadius.circular(25.0),
+        borderRadius: new BorderRadius.circular(20.0),
         onTap: () {
           _goToInfo(context, title);
         },
