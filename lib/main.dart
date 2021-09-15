@@ -12,7 +12,7 @@ import 'package:lottie/lottie.dart';
 import 'package:fluro/fluro.dart';
 import 'utils/application.dart';
 import 'utils/routers.dart';
-//
+//w
 // import 'package:MovoLink/wave.dart';
 
 void main() {
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         home: HomePage(),
         routes: {
           //需要使用context指定上下文
-          '/wave': (context) => WithBuilder(), //
+          // '/wave': (context) => WithBuilder(), //
           '/main': (context) => HomePage(), //
           '/welcome': (context) => welcome(), //
           '/deviceInfo': (context) => DeviceInfo(), //
@@ -101,7 +101,7 @@ class ListState extends State<HomePage> {
           setState(() {});
         }
       });
-      return _timer;
+      return;
     });
   }
 

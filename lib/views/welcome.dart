@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluro/fluro.dart';
 import 'package:MovoLink/utils/application.dart';
+import 'package:transparent_image/transparent_image.dart';
+
 
 
 
@@ -159,6 +161,7 @@ class welcomePage extends State<welcome> {
         decoration: BoxDecoration(
             image: new DecorationImage(
           alignment: Alignment(0.0, 1.0),
+          // image: FadeInImage.asset(kTransparentImage()),
           image: new ExactAssetImage('assets/images/welcome_bg.png'),
           fit: BoxFit.cover,
         )),
