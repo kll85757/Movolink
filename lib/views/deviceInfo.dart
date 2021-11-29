@@ -5,7 +5,6 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui show Image;
 
-
 class DeviceInfo extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -33,8 +32,8 @@ class CustomPaintRoute extends StatelessWidget {
 class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final double eWidth = size.width / 9;
-    final double eHeight = size.height / 9;
+    final double eWidth = size.width / 12;
+    final double eHeight = size.height / 12;
     //網格背景
     var paint = Paint()
       ..isAntiAlias = true
@@ -50,23 +49,23 @@ class MyPainter extends CustomPainter {
     paint
       ..style = PaintingStyle.stroke //线
       ..color = luckyGreen
-      ..strokeWidth = 0.4;
+      ..strokeWidth = 0.3;
 
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i <= 25; ++i) {
       double dy = eHeight * i;
       canvas.drawLine(Offset(0, dy), Offset(size.width, dy), paint);
     }
 
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i <= 25; ++i) {
       double dx = eWidth * i;
       canvas.drawLine(Offset(dx, 0), Offset(dx, size.height), paint);
     }
   }
 
   @override
-  bool shouldRepaint(MyPainter oldDelegate) => false;
+  bool shouldRepaint(MyPainter oldDelegate) => true;
   @override
-  bool shouldRebuildSemantics(MyPainter oldDelegate) => false;
+  bool shouldRebuildSemantics(MyPainter oldDelegate) => true;
 }
 
 class InfoPage extends State<DeviceInfo> {
@@ -505,153 +504,169 @@ class InfoState extends State<HomePage> {
                         )),
                   ],
                 ),
-                Row(
-                  children: [
-                    ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: 120.0),
+                Row(children: [
+                  ConstrainedBox(
+                      constraints: BoxConstraints(minHeight: 120.0),
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(20, 5, 10, 20),
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.width / 2,
                         child: Container(
-                          padding: EdgeInsets.fromLTRB(20, 5, 10, 20),
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      offset: new Offset(3, 3),
-                                      blurRadius: 18,
-                                    )
-                                  ],
-                                  border: null,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25.0))),
-                              height: 50.0,
-                              width: 100.0,
-                              child: new Container(
-                                width: 100,
-                                alignment: Alignment(10, 10),
-                                padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                                child: Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '位置',
-                                              style: TextStyle(fontSize: 16.sp),
-                                            ),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 5)),
-                                            Row(
-                                              children: [
-                                                Image(
-                                                  image: AssetImage(
-                                                      'assets/images/gps.png'),
-                                                  height: 18,
-                                                  width: 18,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    offset: new Offset(3, 3),
+                                    blurRadius: 18,
+                                  )
+                                ],
+                                border: null,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                            height: 50.0,
+                            width: 100.0,
+                            child: new Container(
+                              width: 100,
+                              alignment: Alignment(10, 10),
+                              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                              child: Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '位置',
+                                            style: TextStyle(fontSize: 16.sp),
+                                          ),
+                                          Padding(
+                                              padding: EdgeInsets.only(top: 5)),
+                                          Row(
+                                            children: [
+                                              Image(
+                                                image: AssetImage(
+                                                    'assets/images/gps.png'),
+                                                height: 18,
+                                                width: 18,
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 5)),
+                                              Text(
+                                                '距离你约23米',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: tipsColor,
                                                 ),
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 8)),
-                                                Text(
-                                                  '距离你约23米',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: tipsColor,
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        )),
-                    // Positioned(
-                    //   top: -24.0,
-                    //   left: -10.0,
-                    //   right: -10.0,
-
-                    //   child: Lottie.asset(
-                    //     'assets/Mobilo/gps.json',
-                    //     width: 15,
-                    //     height: 30,
-                    //   ),
-                    // ),
-                    ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: 120.0),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(10, 5, 20, 20),
-                          width: MediaQuery.of(context).size.width / 2,
-                          height: MediaQuery.of(context).size.width / 2,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black12,
-                                      offset: new Offset(3, 3),
-                                      blurRadius: 10,
-                                    )
-                                  ],
-                                  border: Border.all(color: luckyGreen),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(255.0))),
-                              height: 50.0,
-                              width: 100.0,
-                              child: new Container(
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    // image: ,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: luckyGreen,
-                                        // color: Colors.grey.withOpacity(0.2),
-                                        // blurRadius: 20.0,
-                                      ),
-                                      BoxShadow(
-                                        color: Colors.white,
-                                        spreadRadius: 1,
-                                        blurRadius: 15.0,
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
                                     ],
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(255.0))),
-                                alignment: Alignment(10, 10),
-                                // padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                                child: PhysicalModel(
-                                  color: Colors.transparent,
-                                  clipBehavior: Clip.antiAlias,
-                                  borderRadius: BorderRadius.circular(288),
-                                  child: Container(
-                                    // clipBehavior: Clip.antiAlias,
-                                    // child:CustomPaintRoute(),
-                                    child: CustomPaint(
-                                      size: Size(300, 300),
-                                      isComplex: true,
-                                      willChange: false,
-                                      painter: MyPainter(),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      )),
+                  // Positioned(
+                  //   child: Lottie.asset(
+                  //     'assets/Mobilo/gps.json',
+                  //     width: 30,
+                  //     height: 30,
+                  //   ),
+                  // ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: 120.0),
+                    child: Container(
+                        padding: EdgeInsets.fromLTRB(10, 5, 20, 20),
+                        width: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.width / 2,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    offset: new Offset(3, 3),
+                                    blurRadius: 10,
+                                  )
+                                ],
+                                border: Border.all(color: luckyGreen),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(255.0))),
+                            height: 50.0,
+                            width: 100.0,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                      // image: ,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: luckyGreen,
+                                          // color: Colors.grey.withOpacity(0.2),
+                                          // blurRadius: 20.0,
+                                        ),
+                                        BoxShadow(
+                                          color: Colors.white,
+                                          spreadRadius: 1,
+                                          blurRadius: 15.0,
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(255.0))),
+                                  alignment: Alignment(10, 10),
+                                  // padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                                  child: PhysicalModel(
+                                    color: Colors.transparent,
+                                    clipBehavior: Clip.antiAlias,
+                                    borderRadius: BorderRadius.circular(288),
+                                    child: Container(
+                                      // clipBehavior: Clip.antiAlias,
+                                      // child:CustomPaintRoute(),
+                                      child: CustomPaint(
+                                        size: Size(300, 300),
+                                        isComplex: true,
+                                        willChange: true,
+                                        painter: MyPainter(),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              )),
-                        )),
-                  ],
-                ),
+                                Positioned(
+                                  // left:50.sp,
+                                  // top:50.sp,
+                                  // alignment:
+                                  child: Lottie.asset(
+                                    'assets/lottiefiles/done.json',
+                                    width: 1000.sp,
+                                    height: 1000.sp,
+                                  ),
+                                  // child: Lottie.asset(
+                                  //   'assets/lottiefiles/turbine.json',
+                                  //   width: 1000.sp,
+                                  //   height: 1000.sp,
+                                  // ),
+                                  // child: Lottie.asset(
+                                  //   'assets/Mobilo/gps.json',
+                                  //   width: 16.sp,
+                                  //   height: 16.sp,
+                                  // ),
+                                ),
+                              ],
+                            ))),
+                  )
+                ]),
                 Row(
-                  children: [
-                      
-                  ],
+                  children: [],
                 ),
               ],
             ),

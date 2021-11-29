@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:MovoLink/utils/setting.dart';
 import 'package:MovoLink/utils/ble.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 // import 'package:blemulator/blemulator.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:MovoLink/views/deviceList.dart';
 
 // typedef Logger = Function(String);
 
@@ -16,10 +19,19 @@ import 'package:flutter_blue/flutter_blue.dart';
 
 //   log("Get radio state: ${await bleManager.bluetoothState()}");
 // }
+bool isSearchEnd = true;
+
+@override
+void initState() {
+  //页面初始化
+  // super.initState();
+  isSearchEnd = true;
+}
 
 class DevieSearch extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    searchStart();
     return DevieSearchPage();
   }
 }
@@ -37,7 +49,7 @@ class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   }
 }
 
-Widget titleSection = Container(
+Widget titleSection(BuildContext context) => Container(
   padding: const EdgeInsets.fromLTRB(20, 100, 20, 20),
   color: Colors.transparent,
   child: Row(
@@ -71,9 +83,19 @@ Widget titleSection = Container(
               ),
             ),
             Padding(padding: EdgeInsets.only(top: 130.sp)),
-            Center(
-              child: Lottie.asset('assets/lottiefiles/lego_loader.json',
-                  width: 300, height: 300, repeat: false),
+            Offstage(
+              offstage: !isSearchEnd,
+              child: Center(
+                child: Lottie.asset('assets/lottiefiles/lego_loader.json',
+                    width: 300.sp, height: 300.sp, repeat: true),
+              ),
+            ),
+            Offstage(
+              offstage: isSearchEnd,
+              child: Center(
+                child: Lottie.asset('assets/lottiefiles/done.json',
+                    width: 200.sp, height: 200.sp, repeat: true),
+              ),
             ),
             Row(
               children: [
@@ -90,7 +112,29 @@ Widget titleSection = Container(
   ),
 );
 
+List<String> allDeviceName = [];
+
 class DevieSearchPage extends State<DevieSearch> {
+  var lastPopTime = DateTime.now();
+  void intervalClick(int needTime) {
+    // 防重复提交
+    if (lastPopTime == null ||
+        DateTime.now().difference(lastPopTime) > Duration(seconds: needTime)) {
+      print(lastPopTime);
+      lastPopTime = DateTime.now();
+      print("允许点击");
+    } else {
+      // lastPopTime = DateTime.now(); //如果不注释这行,则强制用户一定要间隔2s后才能成功点击. 而不是以上一次点击成功的时间开始计算.
+      print("请勿重复点击！");
+    }
+  }
+
+  void stopSearch() {
+    setState(() {
+      isSearchEnd = !isSearchEnd;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -110,7 +154,17 @@ class DevieSearchPage extends State<DevieSearch> {
           ),
           // backgroundColor: Colors.white,
           onPressed: () {
-            searchStart();
+            // intervalClick(2);
+            // if (lastPopTime == null ||
+            //     DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
+            //   lastPopTime = DateTime.now();
+              
+            // } else {
+            //   lastPopTime = DateTime.now();
+            //   return;
+            // }
+            stopSearch();
+            startTime(context);
             // Navigator.pushNamed(context, '/deviceList');
           },
         ),
@@ -127,7 +181,7 @@ class DevieSearchPage extends State<DevieSearch> {
             ),
         child: Container(
           color: Colors.transparent,
-          child: titleSection,
+          child: titleSection(context),
         ),
       ),
     );
@@ -135,21 +189,52 @@ class DevieSearchPage extends State<DevieSearch> {
 }
 
 
-@override
-void initState() {
-  //页面初始化
-  // initBle();
-}
-
 void searchStart() {
   // startBle();
   // getBleScanNameAry();
   BleManager.instance.startScan(scanResultHandler, timeout: 10);
 }
-  
+
 void scanResultHandler(List<ScanResult> results) {
-  print('results ====> $results');
+  // print('results ====> $results');
   for (ScanResult r in results) {
-    print('${r.device.name} found! rssi: ${r.rssi}');
+    // print('${r.device.name} found! rssi: ${r.rssi}');
+    print('${r.device.name} found');
+    print(
+        '${r.device.name} found! rssi: ${r.advertisementData.manufacturerData}');
+    // allDeviceName.add(r.device.name);
+    bool isReSearch = allDeviceName.contains(r.device.name);
+    if (!isReSearch) {
+      allDeviceName.add(r.device.name.toString());
+    }
+    // bool isReSearch = allDeviceName.contains(r.device.id);
+    // if(!isReSearch){
+    //   allDeviceName.add(r.device.id.toString());
+    // }
   }
+  // print({allDeviceName});
+}
+
+void closeSearchAnime() {}
+
+startTime(context) async {
+  Timer _timer;
+  int count = 3;
+  var _duration = new Duration(seconds: 1);
+  new Timer(_duration, () {
+    // 空等1秒之后再计时
+    _timer = new Timer.periodic(const Duration(milliseconds: 1000), (v) {
+      count--;
+      if (count == 0) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => DeviceList(deviceName: allDeviceName),
+            ));
+      } else {
+        // setState(() {});
+      }
+    });
+    return;
+  });
 }

@@ -153,13 +153,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.4"
-  flutter_reactive_ble:
-    dependency: "direct main"
-    description:
-      name: flutter_reactive_ble
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.0"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -263,13 +256,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.11.1"
-  plugin_platform_interface:
-    dependency: transitive
-    description:
-      name: plugin_platform_interface
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.1"
   protobuf:
     dependency: transitive
     description:
@@ -284,20 +270,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.0.0"
-  reactive_ble_mobile:
-    dependency: transitive
-    description:
-      name: reactive_ble_mobile
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.0"
-  reactive_ble_platform_interface:
-    dependency: transitive
-    description:
-      name: reactive_ble_platform_interface
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.0"
   route_transitions_do:
     dependency: "direct main"
     description:

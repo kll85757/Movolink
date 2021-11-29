@@ -1,14 +1,36 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:route_transitions_do/route_transitions_do.dart';
 import 'package:MovoLink/views/deviceInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// class DataForSearch extends StatelessWidget {
+
+// }
+
+// List MenuNun;
+List<String> MenuNun = [
+  'Battery 01',
+  'Battery 02',
+  'Battery 03',
+  'Battery 04',
+  '5',
+  '6',
+  '7',
+  '8',
+  '8',
+  '9'
+];
+
 class DeviceList extends StatefulWidget {
+  List deviceName;
+  DeviceList({this.deviceName});
+
   @override
   State<StatefulWidget> createState() {
+    MenuNun = deviceName;
+    print(deviceName);
     return ListPage();
   }
 }
@@ -222,18 +244,7 @@ class ListState extends State<HomePage> {
   }
 }
 
-List<String> MenuNun = [
-  'Battery 01',
-  'Battery 02',
-  'Battery 03',
-  'Battery 04',
-  '5',
-  '6',
-  '7',
-  '8',
-  '8',
-  '9'
-];
+
 
 List<Widget> initListWidget(BuildContext context, List<String> MenuNun) {
   List<Widget> lists = [];
