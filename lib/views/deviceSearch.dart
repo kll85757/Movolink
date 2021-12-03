@@ -20,6 +20,9 @@ import 'package:MovoLink/views/deviceList.dart';
 //   log("Get radio state: ${await bleManager.bluetoothState()}");
 // }
 bool isSearchEnd = true;
+List<String> allDeviceName = [];
+List<String> allData = [];
+Map<String,String> deviceData;
 
 @override
 void initState() {
@@ -32,7 +35,7 @@ class DevieSearch extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     searchStart();
-    return DevieSearchPage();
+    return new DevieSearchPage();
   }
 }
 
@@ -112,7 +115,7 @@ Widget titleSection(BuildContext context) => Container(
   ),
 );
 
-List<String> allDeviceName = [];
+
 
 class DevieSearchPage extends State<DevieSearch> {
   var lastPopTime = DateTime.now();
@@ -133,6 +136,7 @@ class DevieSearchPage extends State<DevieSearch> {
     setState(() {
       isSearchEnd = !isSearchEnd;
     });
+    return null;
   }
 
   @override
@@ -199,13 +203,21 @@ void scanResultHandler(List<ScanResult> results) {
   // print('results ====> $results');
   for (ScanResult r in results) {
     // print('${r.device.name} found! rssi: ${r.rssi}');
-    print('${r.device.name} found');
-    print(
-        '${r.device.name} found! rssi: ${r.advertisementData.manufacturerData}');
+    // print('${r.device.name} found');
+    // print(
+    //     '${r.device.name} found! rssi: ${r.advertisementData.manufacturerData}');
     // allDeviceName.add(r.device.name);
     bool isReSearch = allDeviceName.contains(r.device.name);
     if (!isReSearch) {
+      if(r.device.name != ''){
+        print({r});
+      }
       allDeviceName.add(r.device.name.toString());
+      allData.add(r.advertisementData.manufacturerData.toString());
+      deviceData = {'name':r.device.name.toString(),'mData': r.advertisementData.manufacturerData.toString(),'loc': r.rssi.toString()};
+    }
+    if(r.device.name == ''){
+      allDeviceName.remove(r.device.name);
     }
     // bool isReSearch = allDeviceName.contains(r.device.id);
     // if(!isReSearch){
@@ -229,7 +241,7 @@ startTime(context) async {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DeviceList(deviceName: allDeviceName),
+              builder: (context) => DeviceList(deviceName: allDeviceName,data: deviceData),
             ));
       } else {
         // setState(() {});

@@ -642,13 +642,13 @@ class InfoState extends State<HomePage> {
                                   ),
                                 ),
                                 Positioned(
-                                  // left:50.sp,
-                                  // top:50.sp,
+                                  left:51.sp,
+                                  top:51.sp,
                                   // alignment:
                                   child: Lottie.asset(
-                                    'assets/lottiefiles/done.json',
-                                    width: 1000.sp,
-                                    height: 1000.sp,
+                                    'assets/Mobilo/GPS_L.json',
+                                    width: 50.sp,
+                                    height: 50.sp,
                                   ),
                                   // child: Lottie.asset(
                                   //   'assets/lottiefiles/turbine.json',
@@ -660,6 +660,22 @@ class InfoState extends State<HomePage> {
                                   //   width: 16.sp,
                                   //   height: 16.sp,
                                   // ),
+                                ),
+                                Positioned(
+                                  // left:50.sp,
+                                  // top:50.sp,
+                                  // alignment:
+                                
+                                  // child: Lottie.asset(
+                                  //   'assets/lottiefiles/turbine.json',
+                                  //   width: 1000.sp,
+                                  //   height: 1000.sp,
+                                  // ),
+                                  child: Lottie.asset(
+                                    'assets/Mobilo/gps.json',
+                                    width: 16.sp,
+                                    height: 16.sp,
+                                  ),
                                 ),
                               ],
                             ))),

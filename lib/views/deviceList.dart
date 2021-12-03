@@ -22,15 +22,23 @@ List<String> MenuNun = [
   '8',
   '9'
 ];
+List<String> allDeType = [
+  'V口',
+  '充电宝',
+  '安东口',
+  '储能电池'
+];
 
 class DeviceList extends StatefulWidget {
   List deviceName;
-  DeviceList({this.deviceName});
+  Map<String, String> data;
+  DeviceList({this.deviceName,this.data});
 
   @override
   State<StatefulWidget> createState() {
     MenuNun = deviceName;
-    print(deviceName);
+    // print(deviceName);
+    // print(data);
     return ListPage();
   }
 }
@@ -220,7 +228,7 @@ class ListState extends State<HomePage> {
               //宽高比
               childAspectRatio: 2 / 2,
               //设置itemView
-              children: initListWidget(context, MenuNun),
+              children: initListWidget(context, MenuNun, allDeType),
             ))
           ]),
         ),
@@ -246,7 +254,7 @@ class ListState extends State<HomePage> {
 
 
 
-List<Widget> initListWidget(BuildContext context, List<String> MenuNun) {
+List<Widget> initListWidget(BuildContext context, List<String> MenuNun , List<String> allDeType) {
   List<Widget> lists = [];
   for (var item in MenuNun) {
     lists.add(
@@ -265,7 +273,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun) {
           height: 50.0,
           width: 50.0,
           child: new Center(
-            child: listItem(context, item),
+            child: listItem(context, item,item),
           )),
     );
   }
@@ -273,7 +281,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun) {
 }
 
 //宫格菜单Widget
-Widget listItem(BuildContext context, String menuText) {
+Widget listItem(BuildContext context, String menuText , String deType) {
   var title = menuText;
   return Card(
     color: Colors.white,
@@ -339,6 +347,13 @@ Widget listItem(BuildContext context, String menuText) {
                 //   height: 45,
                 //   width: 40,
                 // ),
+                Text(
+                  deType.toString(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    fontSize: 12.sp,
+                  ),
+                ),
                 Text(
                   '充电完成',
                   style: TextStyle(
