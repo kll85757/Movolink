@@ -45,6 +45,9 @@ dependencies:
   functional_data: ^1.0.0
   intl: ^0.17.0
   provider: ^5.0.0
+  progresso: ^0.3.0
+  percent_indicator: ^3.4.0
+  # flutter_iconpicker: ^3.0.4
   # flutter_ble_lib: ^2.3.2
   # blemulator: ^1.2.1
   

@@ -256,6 +256,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.11.1"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.4.0"
+  progresso:
+    dependency: "direct main"
+    description:
+      name: progresso
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.0"
   protobuf:
     dependency: transitive
     description:

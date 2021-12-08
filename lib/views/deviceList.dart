@@ -1,9 +1,16 @@
+import 'dart:async';
+
 import 'dart:io';
+import 'package:MovoLink/utils/setting.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:route_transitions_do/route_transitions_do.dart';
 import 'package:MovoLink/views/deviceInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:progresso/progresso.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 // class DataForSearch extends StatelessWidget {
 
@@ -22,23 +29,20 @@ List<String> MenuNun = [
   '8',
   '9'
 ];
-List<String> allDeType = [
-  'V口',
-  '充电宝',
-  '安东口',
-  '储能电池'
-];
+List<String> allDeType = ['V口', '充电宝', '安东口', '储能电池'];
+List AllDeviceData;
 
 class DeviceList extends StatefulWidget {
   List deviceName;
-  Map<String, String> data;
-  DeviceList({this.deviceName,this.data});
+  List data;
+  DeviceList({this.deviceName, this.data});
 
   @override
   State<StatefulWidget> createState() {
     MenuNun = deviceName;
+    AllDeviceData = data;
     // print(deviceName);
-    // print(data);
+    print(AllDeviceData);
     return ListPage();
   }
 }
@@ -186,9 +190,6 @@ Widget titleSection = Container(
   ),
 );
 
-
-
-
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -228,7 +229,8 @@ class ListState extends State<HomePage> {
               //宽高比
               childAspectRatio: 2 / 2,
               //设置itemView
-              children: initListWidget(context, MenuNun, allDeType),
+              children:
+                  initListWidget(context, MenuNun, allDeType, AllDeviceData),
             ))
           ]),
         ),
@@ -252,11 +254,11 @@ class ListState extends State<HomePage> {
   }
 }
 
-
-
-List<Widget> initListWidget(BuildContext context, List<String> MenuNun , List<String> allDeType) {
+List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
+    List<String> allDeType, List AllDeviceData) {
   List<Widget> lists = [];
-  for (var item in MenuNun) {
+  for (var item in AllDeviceData) {
+    print('${item['name']}');
     lists.add(
       new Container(
           decoration: BoxDecoration(
@@ -273,7 +275,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun , List<St
           height: 50.0,
           width: 50.0,
           child: new Center(
-            child: listItem(context, item,item),
+            child: listItem(context, item['name'], item['loc']),
           )),
     );
   }
@@ -281,7 +283,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun , List<St
 }
 
 //宫格菜单Widget
-Widget listItem(BuildContext context, String menuText , String deType) {
+Widget listItem(BuildContext context, String menuText, String deType) {
   var title = menuText;
   return Card(
     color: Colors.white,
@@ -291,6 +293,7 @@ Widget listItem(BuildContext context, String menuText , String deType) {
     ),
     child: InkWell(
         splashColor: Colors.lightGreen,
+        // customBorder: Border.all(),
         // focusColor: Colors.lightGreenAccent,
         hoverColor: Colors.pink,
         // highlightColor: Color(0xFFE0E0E0),
@@ -302,42 +305,89 @@ Widget listItem(BuildContext context, String menuText , String deType) {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Padding(padding: EdgeInsets.only(top: 0)),
+            Padding(padding: EdgeInsets.only(top: 13.sp)),
             Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 13)),
-                Image(
-                  image: AssetImage('assets/images/BatteryFull.png'),
-                  height: 45,
-                  width: 40,
-                ),
-                Padding(padding: EdgeInsets.only(left: 5)),
-                Text(
-                  '100%',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(padding: EdgeInsets.only(left: 13)),
-                // Image(
-                //   image: AssetImage('assets/images/BatteryFull.png'),
-                //   height: 45,
-                //   width: 40,
-                // ),
                 Text(
                   title.toString(),
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 20.sp,
                   ),
                 ),
               ],
             ),
+            Padding(padding: EdgeInsets.only(top: 2.sp)),
+            Row(
+              children: [
+                Padding(padding: EdgeInsets.only(left: 13)),
+                Text(
+                  'Movoton Inc.',
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    color: tipsColor,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
+            ),
+            Padding(padding: EdgeInsets.only(top: 7.sp)),
+            Row(
+              children: [
+                Padding(padding: EdgeInsets.only(left: 13)),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: luckyGreen, width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                        // color: luckyGreen,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            FlutterIcons.flash_mco,
+                            color: luckyGreen,
+                            size: 15.sp,
+                          ),
+                          Text(
+                            '充电中',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: luckyGreen,
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+                Padding(padding: EdgeInsets.only(left: 5)),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: luckyPink, width: 1),
+                      borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                      // color: luckyGreen,
+                    ),
+                    child: Text(
+                      'V口',
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                        color: luckyPink,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.only(left: 5)),
+              ],
+            ),
+            Padding(padding: EdgeInsets.only(top: 5)),
+
             Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 13)),
@@ -347,22 +397,61 @@ Widget listItem(BuildContext context, String menuText , String deType) {
                 //   height: 45,
                 //   width: 40,
                 // ),
-                Text(
-                  deType.toString(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12.sp,
-                  ),
-                ),
-                Text(
-                  '充电完成',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12.sp,
-                  ),
-                ),
+                // Text(
+                //   deType.toString(),
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.normal,
+                //     fontSize: 12.sp,
+                //   ),
+                // ),
+
+                // Text(
+                //   deType.toString(),
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.normal,
+                //     fontSize: 12.sp,
+                //   ),
+                // ),
               ],
             ),
+
+            // Row(
+            //   children: [
+            //     Padding(padding: EdgeInsets.only(left: 13)),
+            //     Stack(
+            //       children: [
+            //         Padding(padding: EdgeInsets.only(top: 12.sp)),
+
+            //         Positioned(
+            //           width: 15.6.sp,
+            //           top:20.sp,
+            //           left:7.5.sp,
+            //           child:
+            //           Progresso(
+            //             progress: 0,
+            //             progressColor: Colors.green,
+            //             backgroundColor: Colors.transparent),
+            //         ),
+            //         Image(
+            //           image: AssetImage('assets/images/BatteryOff.png'),
+            //           height: 45,
+            //           width: 40,
+            //         ),
+            //       ],
+            //     ),
+            //     Padding(padding: EdgeInsets.only(left: 5)),
+
+            //     Text(
+            //       '0%',
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.normal,
+            //         fontSize: 16,
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            Padding(padding: EdgeInsets.only(top: 5.sp)),
+
             Flexible(
               flex: 7,
               fit: FlexFit.loose,
@@ -406,14 +495,22 @@ Widget listItem(BuildContext context, String menuText , String deType) {
                     ),
                   ),
                   Align(
-                      // widthFactor: 2,
-                      // heightFactor: 2,
-                      alignment: Alignment.bottomLeft,
-                      child: Image(
-                        image: AssetImage('assets/images/happy.png'),
-                        height: 40,
-                        width: 40,
-                      )),
+                    // widthFactor: 2,
+                    // heightFactor: 2,
+                    alignment: Alignment.bottomLeft,
+                    child: CircularPercentIndicator(
+                      radius: 55.0,
+                      lineWidth: 5.0,
+                      percent: 0.45,
+                      center: new Text("45%"),
+                      progressColor: luckyGreen,
+                    ),
+                    // Image(
+                    //   image: AssetImage('assets/images/happy.png'),
+                    //   height: 40,
+                    //   width: 40,
+                    // )
+                  ),
                   Padding(padding: EdgeInsets.only(left: 5)),
                 ],
               ),
@@ -431,7 +528,7 @@ Widget listItem(BuildContext context, String menuText , String deType) {
 void _goToInfo(BuildContext context, title) {
   Navigator.pushNamed(context, '/deviceInfo');
   setState() {}
-  
+
   // RouteTransitionDo(
   //     context: context, // BuildContext
   //     animationType: AnimationType.fadeIn, // Animation you want

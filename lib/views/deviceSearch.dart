@@ -21,8 +21,7 @@ import 'package:MovoLink/views/deviceList.dart';
 // }
 bool isSearchEnd = true;
 List<String> allDeviceName = [];
-List<String> allData = [];
-Map<String,String> deviceData;
+List allData = [];
 
 @override
 void initState() {
@@ -202,22 +201,25 @@ void searchStart() {
 void scanResultHandler(List<ScanResult> results) {
   // print('results ====> $results');
   for (ScanResult r in results) {
+    Map<String, String> deviceData;
     // print('${r.device.name} found! rssi: ${r.rssi}');
     // print('${r.device.name} found');
-    // print(
-    //     '${r.device.name} found! rssi: ${r.advertisementData.manufacturerData}');
+    // print('${r.device.name} found! rssi: ${r.advertisementData.manufacturerData}');
     // allDeviceName.add(r.device.name);
     bool isReSearch = allDeviceName.contains(r.device.name);
     if (!isReSearch) {
       if(r.device.name != ''){
-        print({r});
+        // print({r});
       }
       allDeviceName.add(r.device.name.toString());
-      allData.add(r.advertisementData.manufacturerData.toString());
+      // allData.add(r.advertisementData.manufacturerData.toString());
       deviceData = {'name':r.device.name.toString(),'mData': r.advertisementData.manufacturerData.toString(),'loc': r.rssi.toString()};
+      allData.add(deviceData);
+      
     }
     if(r.device.name == ''){
       allDeviceName.remove(r.device.name);
+      allData.remove(deviceData);
     }
     // bool isReSearch = allDeviceName.contains(r.device.id);
     // if(!isReSearch){
@@ -241,7 +243,7 @@ startTime(context) async {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DeviceList(deviceName: allDeviceName,data: deviceData),
+              builder: (context) => DeviceList(deviceName: allDeviceName,data: allData),
             ));
       } else {
         // setState(() {});
