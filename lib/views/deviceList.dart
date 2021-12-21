@@ -50,18 +50,14 @@ class DeviceList extends StatefulWidget {
 class ListPage extends State<DeviceList> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      //浮动按钮
-      // floatingActionButton: FloatingActionButton(
-      //   child: Text('返回'),
-      //   onPressed: () {
-      //     Navigator.of(context).pop();
-      //   },
-      // ),
-      // appBar: AppBar(title: Text('荷受・配完'),),
+    return WillPopScope(
+      onWillPop: ()async{
+        return false;
+      },
+      child: Scaffold(
       appBar: null,
       body: HomePage(),
+    )
     );
   }
 }
@@ -295,7 +291,7 @@ Widget listItem(BuildContext context, String menuText, String deType) {
         splashColor: Colors.lightGreen,
         // customBorder: Border.all(),
         // focusColor: Colors.lightGreenAccent,
-        hoverColor: Colors.pink,
+        hoverColor: Colors.pink,  
         // highlightColor: Color(0xFFE0E0E0),
         borderRadius: new BorderRadius.circular(20.0),
         onTap: () {
@@ -360,29 +356,45 @@ Widget listItem(BuildContext context, String menuText, String deType) {
                               color: luckyGreen,
                             ),
                           ),
+                          Text(
+                            '｜',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: luckyGreen,
+                            ),
+                          ),
+                          Text(
+                            '45w',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.bold,
+                              color: luckyGreen,
+                            ),
+                          ),
                         ],
                       )),
                 ),
                 Padding(padding: EdgeInsets.only(left: 5)),
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: luckyPink, width: 1),
-                      borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                      // color: luckyGreen,
-                    ),
-                    child: Text(
-                      'V口',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
-                        color: luckyPink,
-                      ),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.topLeft,
+                //   child: Container(
+                //     padding: EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
+                //     decoration: BoxDecoration(
+                //       // border: Border.all(color: luckyPink, width: 1),
+                //       borderRadius: BorderRadius.all(Radius.circular(3.0)),
+                //       // color: luckyGreen,
+                //     ),
+                //     child: Text(
+                //       'V口',
+                //       style: TextStyle(
+                //         fontSize: 12.sp,
+                //         fontWeight: FontWeight.bold,
+                //         color: luckyPink,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(padding: EdgeInsets.only(left: 5)),
               ],
             ),
@@ -500,10 +512,12 @@ Widget listItem(BuildContext context, String menuText, String deType) {
                     alignment: Alignment.bottomLeft,
                     child: CircularPercentIndicator(
                       radius: 55.0,
-                      lineWidth: 5.0,
+                      lineWidth: 5.0, 
                       percent: 0.45,
                       center: new Text("45%"),
                       progressColor: luckyGreen,
+                      backgroundColor: Colors.grey[200],
+                      backgroundWidth: 5.0,
                     ),
                     // Image(
                     //   image: AssetImage('assets/images/happy.png'),

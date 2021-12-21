@@ -9,6 +9,11 @@ import 'package:lottie/lottie.dart';
 // import 'package:blemulator/blemulator.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:MovoLink/views/deviceList.dart';
+import 'package:MovoLink/utils/application.dart';
+import 'package:fluro/fluro.dart';
+import 'package:flutter/cupertino.dart';
+
+
 
 // typedef Logger = Function(String);
 
@@ -80,7 +85,7 @@ Widget titleSection(BuildContext context) => Container(
               '请确保手机的蓝牙功能处于开启状态',
               style: TextStyle(
                 color: tipsColor,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold,  
                 fontSize: 15.sp,
               ),
             ),
@@ -89,14 +94,14 @@ Widget titleSection(BuildContext context) => Container(
               offstage: !isSearchEnd,
               child: Center(
                 child: Lottie.asset('assets/lottiefiles/lego_loader.json',
-                    width: 300.sp, height: 300.sp, repeat: true),
+                    width: 300.sp, height: 300.sp, repeat: isSearchEnd),
               ),
             ),
             Offstage(
               offstage: isSearchEnd,
               child: Center(
                 child: Lottie.asset('assets/lottiefiles/done.json',
-                    width: 200.sp, height: 200.sp, repeat: true),
+                    width: 200.sp, height: 200.sp, repeat: !isSearchEnd),
               ),
             ),
             Row(
@@ -125,17 +130,18 @@ class DevieSearchPage extends State<DevieSearch> {
       print(lastPopTime);
       lastPopTime = DateTime.now();
       print("允许点击");
+      stopSearch(context);
     } else {
       // lastPopTime = DateTime.now(); //如果不注释这行,则强制用户一定要间隔2s后才能成功点击. 而不是以上一次点击成功的时间开始计算.
       print("请勿重复点击！");
     }
   }
 
-  void stopSearch() {
+  void stopSearch(BuildContext context) {
     setState(() {
       isSearchEnd = !isSearchEnd;
     });
-    return null;
+    startTime(context);
   }
 
   @override
@@ -144,6 +150,7 @@ class DevieSearchPage extends State<DevieSearch> {
     return Scaffold(
       //浮动按钮
       floatingActionButton: Container(
+        
         height: 45,
         width: 150,
         decoration: BoxDecoration(
@@ -166,8 +173,7 @@ class DevieSearchPage extends State<DevieSearch> {
             //   lastPopTime = DateTime.now();
             //   return;
             // }
-            stopSearch();
-            startTime(context);
+            stopSearch(context);
             // Navigator.pushNamed(context, '/deviceList');
           },
         ),
@@ -232,6 +238,9 @@ void scanResultHandler(List<ScanResult> results) {
 void closeSearchAnime() {}
 
 startTime(context) async {
+  if(isSearchEnd){
+    return null;
+  }
   Timer _timer;
   int count = 3;
   var _duration = new Duration(seconds: 1);
@@ -240,9 +249,10 @@ startTime(context) async {
     _timer = new Timer.periodic(const Duration(milliseconds: 1000), (v) {
       count--;
       if (count == 0) {
+        // Application.routes.navigateTo(context, 'DeviceList',transition: TransitionType.fadeIn);
         Navigator.push(
             context,
-            MaterialPageRoute(
+            CupertinoPageRoute(
               builder: (context) => DeviceList(deviceName: allDeviceName,data: allData),
             ));
       } else {
