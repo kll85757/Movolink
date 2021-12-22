@@ -5,9 +5,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui show Image;
 
+Map InfoData;
 class DeviceInfo extends StatefulWidget {
+  Map data;
+  DeviceInfo({this.data});
+
   @override
   State<StatefulWidget> createState() {
+    InfoData = data;
     return InfoPage();
   }
 }
@@ -88,6 +93,7 @@ class InfoState extends State<HomePage> {
     // super.doReload();
     // ignore: unused_element
     super.initState();
+    print(InfoData);
   }
 
   @override
@@ -160,7 +166,7 @@ class InfoState extends State<HomePage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'V-Mount Battery 98',
+                                              InfoData['name'],
                                               style: TextStyle(fontSize: 16.sp),
                                             ),
                                             Padding(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'dart:io';
 import 'package:MovoLink/utils/setting.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ List<String> MenuNun = [
 ];
 List<String> allDeType = ['V口', '充电宝', '安东口', '储能电池'];
 List AllDeviceData;
+List PickedData;
 
 class DeviceList extends StatefulWidget {
   List deviceName;
@@ -271,7 +273,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
           height: 50.0,
           width: 50.0,
           child: new Center(
-            child: listItem(context, item['name'], item['loc']),
+            child: listItem(context, item['name'], item['loc'],item),
           )),
     );
   }
@@ -279,7 +281,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
 }
 
 //宫格菜单Widget
-Widget listItem(BuildContext context, String menuText, String deType) {
+Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) {
   var title = menuText;
   return Card(
     color: Colors.white,
@@ -291,11 +293,12 @@ Widget listItem(BuildContext context, String menuText, String deType) {
         splashColor: Colors.lightGreen,
         // customBorder: Border.all(),
         // focusColor: Colors.lightGreenAccent,
-        hoverColor: Colors.pink,  
+        hoverColor: Colors.pink,
         // highlightColor: Color(0xFFE0E0E0),
         borderRadius: new BorderRadius.circular(20.0),
         onTap: () {
-          _goToInfo(context, title);
+          // print(Mdata);
+          _goToInfo(context, Mdata);
         },
         child: Center(
             child: Column(
@@ -427,41 +430,7 @@ Widget listItem(BuildContext context, String menuText, String deType) {
               ],
             ),
 
-            // Row(
-            //   children: [
-            //     Padding(padding: EdgeInsets.only(left: 13)),
-            //     Stack(
-            //       children: [
-            //         Padding(padding: EdgeInsets.only(top: 12.sp)),
-
-            //         Positioned(
-            //           width: 15.6.sp,
-            //           top:20.sp,
-            //           left:7.5.sp,
-            //           child:
-            //           Progresso(
-            //             progress: 0,
-            //             progressColor: Colors.green,
-            //             backgroundColor: Colors.transparent),
-            //         ),
-            //         Image(
-            //           image: AssetImage('assets/images/BatteryOff.png'),
-            //           height: 45,
-            //           width: 40,
-            //         ),
-            //       ],
-            //     ),
-            //     Padding(padding: EdgeInsets.only(left: 5)),
-
-            //     Text(
-            //       '0%',
-            //       style: TextStyle(
-            //         fontWeight: FontWeight.normal,
-            //         fontSize: 16,
-            //       ),
-            //     ),
-            //   ],
-            // ),
+           
             Padding(padding: EdgeInsets.only(top: 5.sp)),
 
             Flexible(
@@ -539,10 +508,14 @@ Widget listItem(BuildContext context, String menuText, String deType) {
   );
 }
 
-void _goToInfo(BuildContext context, title) {
-  Navigator.pushNamed(context, '/deviceInfo');
-  setState() {}
-
+void _goToInfo(BuildContext context, Picked) {
+  // Navigator.pushNamed(context, '/deviceInfo');
+   Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) =>
+            DeviceInfo(data: Picked),
+      ));
   // RouteTransitionDo(
   //     context: context, // BuildContext
   //     animationType: AnimationType.fadeIn, // Animation you want
