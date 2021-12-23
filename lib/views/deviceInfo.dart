@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui show Image;
+import 'dart:math' as math; 
+
 
 Map InfoData;
 class DeviceInfo extends StatefulWidget {
@@ -115,7 +117,7 @@ class InfoState extends State<HomePage> {
         ),
         textTheme: TextTheme(
             headline6: TextStyle(
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.bold, 
           fontSize: 18,
           color: Colors.green,
         )),
@@ -564,7 +566,9 @@ class InfoState extends State<HomePage> {
                                                   padding: EdgeInsets.only(
                                                       right: 5)),
                                               Text(
-                                                '距离你约23米',
+                                                '距离你约'+ rssiRange(int.parse(
+                                                            InfoData['loc']))
+                                                        .toString() +'米',
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   color: tipsColor,
@@ -692,4 +696,13 @@ class InfoState extends State<HomePage> {
               ))),
     );
   }
+}
+
+num rssiRange(rssi){
+  var A = 70.0;
+  var N = 2.0;
+  var ReRssi = rssi.abs();
+  var power = ((ReRssi - A)/(10 * N).truncate());
+  var res = math.pow(10, power).truncate();
+  return res;
 }
