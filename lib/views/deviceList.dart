@@ -509,13 +509,25 @@ Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) 
 }
 
 void _goToInfo(BuildContext context, Picked) {
-  // Navigator.pushNamed(context, '/deviceInfo');
-   Navigator.push(
-      context,
-      CupertinoPageRoute(
-        builder: (context) =>
-            DeviceInfo(data: Picked),
-      ));
+  Timer _timer;
+  int count = 1;
+  var _duration = new Duration(seconds: 0);
+  new Timer(_duration, () {
+    _timer = new Timer.periodic(const Duration(milliseconds: 100), (v) {
+      count--;
+      if (count == 0) {
+           Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => DeviceInfo(data: Picked),
+            ));
+      } else {
+        // setState(() {});
+      }
+    });
+    return;
+  });
+
   // RouteTransitionDo(
   //     context: context, // BuildContext
   //     animationType: AnimationType.fadeIn, // Animation you want
