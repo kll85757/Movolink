@@ -8,6 +8,7 @@ import 'dart:math' as math;
 
 
 Map InfoData;
+Map TestData = {6: [1, 9, 33, 10, 141, 115, 133, 185, 22, 32, 68, 69, 83, 75, 84, 79, 80, 45, 72, 84, 50, 53, 86, 79, 52]} ;
 class DeviceInfo extends StatefulWidget {
   Map data;
   DeviceInfo({this.data});

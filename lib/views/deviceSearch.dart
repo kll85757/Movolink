@@ -27,6 +27,7 @@ import 'package:flutter/cupertino.dart';
 bool isSearchEnd = true;
 List<String> allDeviceName = [];
 List allData = [];
+var lastPopTime = null;
 
 @override
 void initState() {
@@ -122,8 +123,7 @@ Widget titleSection(BuildContext context) => Container(
 
 
 class DevieSearchPage extends State<DevieSearch> {
-  var lastPopTime = DateTime.now();
-  void intervalClick(int needTime) {
+  void intervalClick(int needTime, lastPopTime) {
     // 防重复提交
     if (lastPopTime == null ||
         DateTime.now().difference(lastPopTime) > Duration(seconds: needTime)) {
@@ -141,6 +141,7 @@ class DevieSearchPage extends State<DevieSearch> {
     setState(() {
       isSearchEnd = !isSearchEnd;
     });
+    lastPopTime = DateTime.now();
     startTime(context);
   }
 
@@ -164,7 +165,7 @@ class DevieSearchPage extends State<DevieSearch> {
           ),
           // backgroundColor: Colors.white,
           onPressed: () {
-            // intervalClick(2);
+            intervalClick(10, lastPopTime);
             // if (lastPopTime == null ||
             //     DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
             //   lastPopTime = DateTime.now();
@@ -173,7 +174,7 @@ class DevieSearchPage extends State<DevieSearch> {
             //   lastPopTime = DateTime.now();
             //   return;
             // }
-            stopSearch(context);
+            // stopSearch(context);
             // Navigator.pushNamed(context, '/deviceList');
           },
         ),

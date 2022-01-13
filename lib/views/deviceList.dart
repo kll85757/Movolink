@@ -53,14 +53,13 @@ class ListPage extends State<DeviceList> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async{
-        return false;
-      },
-      child: Scaffold(
-      appBar: null,
-      body: HomePage(),
-    )
-    );
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          appBar: null,
+          body: HomePage(),
+        ));
   }
 }
 
@@ -273,7 +272,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
           height: 50.0,
           width: 50.0,
           child: new Center(
-            child: listItem(context, item['name'], item['loc'],item),
+            child: listItem(context, item['name'], item['loc'], item),
           )),
     );
   }
@@ -281,8 +280,16 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
 }
 
 //宫格菜单Widget
-Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) {
+Widget listItem(
+    BuildContext context, String menuText, String deType, Map Mdata) {
   var title = menuText;
+  var Mindex = 11;
+  var MDatas = Mdata['mData'].toString().split(',');
+  var BTlife = '0';
+  if (MDatas != null && MDatas.length > Mindex) {
+      print(MDatas[11]);
+      BTlife = MDatas[11];
+  }
   return Card(
     color: Colors.white,
     elevation: 0,
@@ -290,7 +297,7 @@ Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) 
       borderRadius: BorderRadius.all(Radius.circular(25.0)),
     ),
     child: InkWell(
-        splashColor: Colors.lightGreen,
+        splashColor: Colors.lightGreen[200],
         // customBorder: Border.all(),
         // focusColor: Colors.lightGreenAccent,
         hoverColor: Colors.pink,
@@ -402,7 +409,6 @@ Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) 
               ],
             ),
             Padding(padding: EdgeInsets.only(top: 5)),
-
             Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 13)),
@@ -429,10 +435,7 @@ Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) 
                 // ),
               ],
             ),
-
-           
             Padding(padding: EdgeInsets.only(top: 5.sp)),
-
             Flexible(
               flex: 7,
               fit: FlexFit.loose,
@@ -481,9 +484,9 @@ Widget listItem(BuildContext context, String menuText, String deType,Map Mdata) 
                     alignment: Alignment.bottomLeft,
                     child: CircularPercentIndicator(
                       radius: 55.0,
-                      lineWidth: 5.0, 
-                      percent: 0.45,
-                      center: new Text("45%"),
+                      lineWidth: 5.0,
+                      percent: int.parse(BTlife)/100,
+                      center: new Text(BTlife.toString()+"%"),
                       progressColor: luckyGreen,
                       backgroundColor: Colors.grey[200],
                       backgroundWidth: 5.0,
@@ -516,7 +519,7 @@ void _goToInfo(BuildContext context, Picked) {
     _timer = new Timer.periodic(const Duration(milliseconds: 100), (v) {
       count--;
       if (count == 0) {
-           Navigator.push(
+        Navigator.push(
             context,
             CupertinoPageRoute(
               builder: (context) => DeviceInfo(data: Picked),

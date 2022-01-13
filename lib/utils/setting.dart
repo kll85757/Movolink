@@ -6,3 +6,5 @@ tipsColor = Colors.grey,
 tipsColor2 = Color(0xFF9bb674),
 lightTips = Color(0xFFF2F2F2),
 luckyPink = Color(0xFFee6e76);
+
+
