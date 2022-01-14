@@ -31,6 +31,7 @@ List<String> MenuNun = [
   '9'
 ];
 List<String> allDeType = ['V口', '充电宝', '安东口', '储能电池'];
+List TestData;
 List AllDeviceData;
 List PickedData;
 
@@ -147,7 +148,6 @@ Widget titleSection = Container(
                         border: OutlineInputBorder(
                           ///设置边框四个角的弧度
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-
                           ///用来配置边框的样式
                           borderSide: BorderSide.none,
                           // borderSide: null

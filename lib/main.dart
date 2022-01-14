@@ -12,7 +12,7 @@ import 'package:lottie/lottie.dart';
 import 'package:fluro/fluro.dart';
 import 'utils/application.dart';
 import 'utils/routers.dart';
-//w
+
 // import 'package:MovoLink/wave.dart';
 
 void main() {
