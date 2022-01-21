@@ -4,11 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui show Image;
-import 'dart:math' as math; 
-
+import 'dart:math' as math;
 
 Map InfoData;
-Map TestData = {6: [1, 9, 33, 10, 141, 115, 133, 185, 22, 32, 68, 69, 83, 75, 84, 79, 80, 45, 72, 84, 50, 53, 86, 79, 52]} ;
+var isDeviceUnkown = false;
+var activeColor = tipsColor2;
+
+
+// Map TestData = {6: [1, 9, 33, 10, 141, 115, 133, 185, 22, 32, 68, 69, 83, 75, 84, 79, 80, 45, 72, 84, 50, 53, 86, 79, 52]} ;
 class DeviceInfo extends StatefulWidget {
   Map data;
   DeviceInfo({this.data});
@@ -16,6 +19,10 @@ class DeviceInfo extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     InfoData = data;
+    print(InfoData);
+    if(InfoData['Model']=='未知型号'){
+      isDeviceUnkown = true;
+    }
     return InfoPage();
   }
 }
@@ -111,16 +118,16 @@ class InfoState extends State<HomePage> {
         shadowColor: Colors.transparent,
         centerTitle: false,
         iconTheme: IconThemeData(
-          color: Colors.green,
+          color: activeColor,
         ),
         actionsIconTheme: IconThemeData(
-          color: Colors.green,
+          color: activeColor,
         ),
         textTheme: TextTheme(
             headline6: TextStyle(
-          fontWeight: FontWeight.bold, 
+          fontWeight: FontWeight.bold,
           fontSize: 18,
-          color: Colors.green,
+          color: activeColor,
         )),
         // titleTextStyle: TextStyle(
         //   color:Colors.black12
@@ -187,7 +194,7 @@ class InfoState extends State<HomePage> {
                                                     padding: EdgeInsets.only(
                                                         right: 8)),
                                                 Text(
-                                                  'Movoton Inc.',
+                                                  InfoData['Brand'],
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     color: tipsColor,
@@ -217,7 +224,7 @@ class InfoState extends State<HomePage> {
                                           color: luckyGreen,
                                         ),
                                         child: Text(
-                                          'MTBK98',
+                                          InfoData['Model'],
                                           style: TextStyle(
                                             fontSize: 17.0,
                                             color: Color(0xFFFFFFFF),
@@ -253,7 +260,7 @@ class InfoState extends State<HomePage> {
                                   ],
                                   // border: Border.all(color: Color(0xFFF0F0F0),width: 2),
                                   border:
-                                      Border.all(color: luckyGreen, width: 0.8),
+                                      Border.all(color: activeColor, width: 0.8),
                                   // border: Border.all(color: Colors.white,width: 2),
                                   borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(25.0),
@@ -281,10 +288,10 @@ class InfoState extends State<HomePage> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  '76',
+                                                  InfoData['BTlife'],
                                                   style: TextStyle(
                                                       fontSize: 70.sp,
-                                                      color: luckyGreen),
+                                                      color: activeColor),
                                                 ),
                                                 Column(
                                                   children: [
@@ -292,7 +299,7 @@ class InfoState extends State<HomePage> {
                                                       '%',
                                                       style: TextStyle(
                                                           fontSize: 35.sp,
-                                                          color: luckyGreen),
+                                                          color: activeColor),
                                                     ),
                                                     Text(
                                                       '放电中',
@@ -371,7 +378,7 @@ class InfoState extends State<HomePage> {
                                                           fontSize: 12.sp,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: luckyGreen,
+                                                          color: activeColor,
                                                         ),
                                                       ),
                                                     ),
@@ -426,7 +433,7 @@ class InfoState extends State<HomePage> {
                                               children: [
                                                 Icon(
                                                   FlutterIcons.smile_o_faw,
-                                                  color: luckyGreen,
+                                                  color: activeColor,
                                                   size: 60.sp,
                                                 ),
                                                 Column(
@@ -438,7 +445,7 @@ class InfoState extends State<HomePage> {
                                                           fontSize: 16.sp,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: luckyGreen),
+                                                          color: activeColor),
                                                     ),
                                                     Row(
                                                       children: [
@@ -446,18 +453,18 @@ class InfoState extends State<HomePage> {
                                                           // FlutterIcons.wi_lightning_wea,
                                                           FlutterIcons
                                                               .flash_mco,
-                                                          color: luckyGreen,
+                                                          color: activeColor,
                                                           size: 27.sp,
                                                         ),
                                                         Text(
                                                           '25W',
                                                           style: TextStyle(
-                                                              fontSize: 18.sp,
+                                                              fontSize: 16.sp,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
                                                               color:
-                                                                  luckyGreen),
+                                                              activeColor),
                                                         ),
                                                       ],
                                                     )
@@ -567,9 +574,11 @@ class InfoState extends State<HomePage> {
                                                   padding: EdgeInsets.only(
                                                       right: 5)),
                                               Text(
-                                                '距离你约'+ rssiRange(int.parse(
+                                                '距离你约' +
+                                                    rssiRange(int.parse(
                                                             InfoData['loc']))
-                                                        .toString() +'米',
+                                                        .toString() +
+                                                    '米',
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   color: tipsColor,
@@ -653,8 +662,8 @@ class InfoState extends State<HomePage> {
                                   ),
                                 ),
                                 Positioned(
-                                  left:51.sp,
-                                  top:53.sp,
+                                  left: 51.sp,
+                                  top: 53.sp,
                                   // alignment:
                                   child: Lottie.asset(
                                     'assets/Mobilo/GPSS.json',
@@ -672,13 +681,13 @@ class InfoState extends State<HomePage> {
                                   //   height: 16.sp,
                                   // ),
                                 ),
-                                Positioned(
-                                  child: Lottie.asset(
-                                    'assets/Mobilo/gps.json',
-                                    width: 12.sp,
-                                    height: 12.sp,
-                                  ),
-                                ),
+                                // Positioned(
+                                //   child: Lottie.asset(
+                                //     'assets/Mobilo/gps.json',
+                                //     width: 12.sp,
+                                //     height: 12.sp,
+                                //   ),
+                                // ),
                               ],
                             ))),
                   )
@@ -699,11 +708,11 @@ class InfoState extends State<HomePage> {
   }
 }
 
-num rssiRange(rssi){
-  var A = 70.0;
+num rssiRange(rssi) {
+  var A = 59.0;
   var N = 2.0;
   var ReRssi = rssi.abs();
-  var power = ((ReRssi - A)/(10 * N).truncate());
+  var power = ((ReRssi - A) / (10 * N).truncate());
   var res = math.pow(10, power).truncate();
   return res;
 }

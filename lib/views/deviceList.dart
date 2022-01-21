@@ -31,7 +31,123 @@ List<String> MenuNun = [
   '9'
 ];
 List<String> allDeType = ['V口', '充电宝', '安东口', '储能电池'];
-List TestData;
+List TestData = [
+  {
+    "name": "Paradise🪐",
+    "mData": {
+      6: [
+        1,
+        1,
+        16,
+        16,
+        1,
+        0,
+        16,
+        80,
+        2,
+        30,
+        96,
+        0,
+        45,
+        00,
+        00,
+        00,
+        68,
+        1,
+        56,
+        84,
+        50,
+        53,
+        86,
+        79,
+        52
+      ]
+    },
+    "loc": "-59"
+  },
+  {
+    "name": "WH-BLE 103",
+    "mData": {
+      6: [
+        1,
+        2,
+        16,
+        17,
+        1,
+        0,
+        16,
+        80,
+        2,
+        30,
+        59,
+        0,
+        0,
+        00,
+        00,
+        00,
+        68,
+        1,
+        56,
+        84,
+        50,
+        53,
+        86,
+        79,
+        52
+      ]
+    },
+    "loc": "-69"
+  },
+  {
+    "name": "飓风V口电池",
+    "mData": {
+      6: [
+        2,
+        4,
+        16,
+        18,
+        1,
+        0,
+        16,
+        80,
+        2,
+        30,
+        23,
+        1,
+        25,
+        00,
+        00,
+        00,
+        68,
+        1,
+        56,
+        84,
+        50,
+        53,
+        86,
+        79,
+        52
+      ]
+    },
+    "loc": "-89"
+  },
+  {"name": "testdata1", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"},
+  {"name": "testdata2", "mData": {}, "loc": "-87"}
+];
 List AllDeviceData;
 List PickedData;
 
@@ -45,7 +161,7 @@ class DeviceList extends StatefulWidget {
     MenuNun = deviceName;
     AllDeviceData = data;
     // print(deviceName);
-    print(AllDeviceData);
+    // print(AllDeviceData);
     return ListPage();
   }
 }
@@ -148,6 +264,7 @@ Widget titleSection = Container(
                         border: OutlineInputBorder(
                           ///设置边框四个角的弧度
                           borderRadius: BorderRadius.all(Radius.circular(10)),
+
                           ///用来配置边框的样式
                           borderSide: BorderSide.none,
                           // borderSide: null
@@ -161,8 +278,8 @@ Widget titleSection = Container(
               margin: EdgeInsets.only(top: 20),
               color: Colors.transparent,
               padding: const EdgeInsets.only(bottom: 3.0),
-              child: Expanded(
-                child: Text(
+              child: Row(children: [
+                Text(
                   'All Device',
                   maxLines: 4,
                   style: TextStyle(
@@ -171,7 +288,7 @@ Widget titleSection = Container(
                     color: Color(0xFF67A419),
                   ),
                 ),
-              ),
+              ]),
             ),
             Text(
               '匹配到的设备显示在这里',
@@ -207,27 +324,38 @@ class ListState extends State<HomePage> {
                 image: new ExactAssetImage('assets/images/listBg.png'))),
         child: Container(
           color: Colors.transparent,
+          height: MediaQuery.of(context).size.height,
           // child: titleSection,
           child: Column(children: [
             Container(
               child: titleSection,
             ),
             Expanded(
-                child: GridView.count(
-              padding: EdgeInsets.fromLTRB(20, 14, 20, 20),
-              //一行多少个
-              crossAxisCount: 2,
-              //滚动方向
-              scrollDirection: Axis.vertical,
-              // 左右间隔
-              crossAxisSpacing: 20.0,
-              // 上下间隔
-              mainAxisSpacing: 20.0,
-              //宽高比
-              childAspectRatio: 2 / 2,
-              //设置itemView
-              children:
-                  initListWidget(context, MenuNun, allDeType, AllDeviceData),
+                flex: 1,
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height -200,
+                    // constraints: BoxConstraints.expand(),
+                    child: GridView.count(
+                      padding: EdgeInsets.fromLTRB(20, 14, 20, 20),
+                      //一行多少个
+                      crossAxisCount: 2,
+                      //滚动方向
+                      scrollDirection: Axis.vertical,
+                      // 左右间隔
+                      crossAxisSpacing: 20.0,
+                      // 上下间隔
+                      mainAxisSpacing: 20.0,
+                      //宽高比
+                      childAspectRatio: 2 / 2,
+                      //设置itemView
+                      children:
+                          initListWidget(context, MenuNun, allDeType, TestData),
+                    ),
+                  )
+              ],
             ))
           ]),
         ),
@@ -255,7 +383,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
     List<String> allDeType, List AllDeviceData) {
   List<Widget> lists = [];
   for (var item in AllDeviceData) {
-    print('${item['name']}');
+    // print('${item['name']}');
     lists.add(
       new Container(
           decoration: BoxDecoration(
@@ -269,8 +397,8 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
               ],
               border: null,
               borderRadius: BorderRadius.all(Radius.circular(25.0))),
-          height: 50.0,
-          width: 50.0,
+          // height: 50.0,
+          // width: 50.0,
           child: new Center(
             child: listItem(context, item['name'], item['loc'], item),
           )),
@@ -282,14 +410,99 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
 //宫格菜单Widget
 Widget listItem(
     BuildContext context, String menuText, String deType, Map Mdata) {
-  var title = menuText;
-  var Mindex = 11;
-  var MDatas = Mdata['mData'].toString().split(',');
-  var BTlife = '0';
+  var title = menuText,
+      Mindex = 11,
+      MDatas = Mdata['mData'].toString().split(','),
+      BTlife = '0',
+      BrandText = 'Unkown',
+      // DeviceModel = 'Unkown',
+      ChargerStatus = '离线设备',
+      IsCharge = true,
+      ChargeColor = tipsColor3,
+      ChargePow = '',
+      FormatData = Mdata;
+  FormatData['ChargerStatus'] = '离线设备';
+  FormatData['Brand'] = BrandText;
+  FormatData['BTlife'] = BTlife;
+  FormatData['Model'] = '未知型号';
+
+
   if (MDatas != null && MDatas.length > Mindex) {
-      print(MDatas[11]);
-      BTlife = MDatas[11];
+    //厂家
+    var Brandtype = MDatas[0].substring(5);
+    if (Brandtype == '1') {
+      BrandText = 'Movoton Inc.';
+      FormatData['Brand'] = BrandText;
+    } else if (Brandtype == '2') {
+      BrandText = '影视飓风';
+      FormatData['Brand'] = BrandText;
+    } else if (Brandtype == '3') {
+      BrandText = 'OEM预留';
+      FormatData['Brand'] = BrandText;
+    } else if (Brandtype == '4') {
+      BrandText = 'OEM预留2';
+      FormatData['Brand'] = BrandText;
+    }
+
+    //型号
+    Map<int, String> ModelList = {1: '工程样品', 2: 'MTBK98',3:'MTBK147',4:'MT-BK9808S/RC'};
+
+    // var Brandtype = MDatas[0].substring(5);
+    for(var key in ModelList.keys){
+      // print('$key : ${ModelList[key]}');
+      // var Index = int.parse(MDatas[1].substring(1))+1;
+      if(MDatas[1].substring(1) == '$key'){
+        // print('$key : ${ModelList[key]}');
+          FormatData['Model'] = '${ModelList[key]}';
+      }
+
+    }
+
+
+    var Chargetype = MDatas[3].substring(1);
+    // print(Chargetype);
+    if (Chargetype == '16') {
+      ChargerStatus = '充电中';
+      ChargeColor = tipsColor2;
+      IsCharge = false;
+      FormatData['ChargerStatus'] = '充电中';
+    } else if (Chargetype == '17') {
+      ChargerStatus = '放电中';
+      ChargeColor = tipsColor2;
+      IsCharge = true;
+      FormatData['ChargerStatus'] = '放电中';
+    } else if (Chargetype == '18') {
+      IsCharge = false;
+      ChargerStatus = '充放电中';
+      ChargeColor = tipsColor2;
+      FormatData['ChargerStatus'] = '充放电中';
+    } else {
+      ChargerStatus = '离线设备';
+      ChargeColor = tipsColor;
+      IsCharge = true;
+      FormatData['ChargerStatus'] = '离线设备';
+    }
+
+    //充电功率计算
+    ChargePow = (MDatas[11].substring(1) + MDatas[12].substring(1))
+            .replaceAll('0', '') +
+        'W';
+    FormatData['ChargePow'] = ChargePow;
+    if (ChargePow.replaceAll('W', '') == '') {
+      FormatData['ChargePow'] = '';
+    }
+
+    //型号
+    var Modeltype = MDatas[1].substring(1);
+    // print(MDatas);
+    // print(ChargePow);
+
+    BTlife = MDatas[10];
+    FormatData['BTlife'] = BTlife;
   }
+
+  print(FormatData);
+
   return Card(
     color: Colors.white,
     elevation: 0,
@@ -319,7 +532,7 @@ Widget listItem(
                   title.toString(),
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                   ),
                 ),
               ],
@@ -329,7 +542,7 @@ Widget listItem(
               children: [
                 Padding(padding: EdgeInsets.only(left: 13)),
                 Text(
-                  'Movoton Inc.',
+                  BrandText,
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
                     color: tipsColor,
@@ -347,39 +560,55 @@ Widget listItem(
                   child: Container(
                       padding: EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
                       decoration: BoxDecoration(
-                        border: Border.all(color: luckyGreen, width: 1),
+                        // boxShadow: [new BoxShadow(color: ChargeColor,blurRadius:1)],
+                        border: Border.all(color: ChargeColor, width: 1),
                         borderRadius: BorderRadius.all(Radius.circular(3.0)),
                         // color: luckyGreen,
                       ),
                       child: Row(
                         children: [
-                          Icon(
-                            FlutterIcons.flash_mco,
-                            color: luckyGreen,
-                            size: 15.sp,
-                          ),
-                          Text(
-                            '充电中',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                              color: luckyGreen,
+                          Offstage(
+                            offstage: IsCharge,
+                            child: Center(
+                              child: Icon(
+                                FlutterIcons.flash_mco,
+                                color: luckyGreen,
+                                size: 14.sp,
+                              ),
                             ),
                           ),
                           Text(
-                            '｜',
+                            ChargerStatus,
                             style: TextStyle(
-                              fontSize: 12.sp,
+                              fontSize: 10.sp,
                               fontWeight: FontWeight.bold,
-                              color: luckyGreen,
+                              color: ChargeColor,
                             ),
                           ),
-                          Text(
-                            '45w',
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.bold,
-                              color: luckyGreen,
+                          Offstage(
+                            offstage: IsCharge,
+                            child: Center(
+                              child: Text(
+                                '｜',
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: ChargeColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Offstage(
+                            offstage: IsCharge,
+                            child: Center(
+                              child: Text(
+                                ChargePow,
+                                style: TextStyle(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: ChargeColor,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -408,11 +637,11 @@ Widget listItem(
                 Padding(padding: EdgeInsets.only(left: 5)),
               ],
             ),
-            Padding(padding: EdgeInsets.only(top: 5)),
+            Padding(padding: EdgeInsets.only(top: 0)),
             Row(
               children: [
                 Padding(padding: EdgeInsets.only(left: 13)),
-                Padding(padding: EdgeInsets.only(top: 5)),
+                Padding(padding: EdgeInsets.only(top: 0)),
                 // Image(
                 //   image: AssetImage('assets/images/BatteryFull.png'),
                 //   height: 45,
@@ -435,7 +664,7 @@ Widget listItem(
                 // ),
               ],
             ),
-            Padding(padding: EdgeInsets.only(top: 5.sp)),
+            Padding(padding: EdgeInsets.only(top: 0)),
             Flexible(
               flex: 7,
               fit: FlexFit.loose,
@@ -485,9 +714,9 @@ Widget listItem(
                     child: CircularPercentIndicator(
                       radius: 55.0,
                       lineWidth: 5.0,
-                      percent: int.parse(BTlife)/100,
-                      center: new Text(BTlife.toString()+"%"),
-                      progressColor: luckyGreen,
+                      percent: int.parse(BTlife) / 100,
+                      center: new Text(BTlife.toString() + "%"),
+                      progressColor: tipsColor2,
                       backgroundColor: Colors.grey[200],
                       backgroundWidth: 5.0,
                     ),

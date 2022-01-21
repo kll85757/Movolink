@@ -43,7 +43,7 @@ Widget titleSection = Container(
             Container(
               color: Colors.transparent,
               padding: const EdgeInsets.only(bottom: 3.0),
-              child: Expanded(
+              child: Container(
                 child: Text(
                   '欢迎使用',
                   maxLines: 4,
@@ -63,7 +63,7 @@ Widget titleSection = Container(
             Container(
               color: Colors.transparent,
               padding: const EdgeInsets.only(bottom: 30.0),
-              child: Expanded(
+              child: Container(
                 child: Text(
                   'Movolink',
                   maxLines: 4,

@@ -70,7 +70,7 @@ Widget titleSection(BuildContext context) => Container(
             Container(
               color: Colors.transparent,
               padding: const EdgeInsets.only(bottom: 3.0),
-              child: Expanded(
+              child: Container(
                 child: Text(
                   '搜索设备',
                   maxLines: 4,
@@ -127,13 +127,13 @@ class DevieSearchPage extends State<DevieSearch> {
     // 防重复提交
     if (lastPopTime == null ||
         DateTime.now().difference(lastPopTime) > Duration(seconds: needTime)) {
-      print(lastPopTime);
+      // print(lastPopTime);
       lastPopTime = DateTime.now();
-      print("允许点击");
+      // print("允许点击");
       stopSearch(context);
     } else {
       // lastPopTime = DateTime.now(); //如果不注释这行,则强制用户一定要间隔2s后才能成功点击. 而不是以上一次点击成功的时间开始计算.
-      print("请勿重复点击！");
+      // print("请勿重复点击！");
     }
   }
 

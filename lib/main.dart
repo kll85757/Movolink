@@ -132,20 +132,14 @@ class ListState extends State<HomePage> {
       //     children: initListWidget(context,MenuNun),
       // )
       body: Center(
-          child: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 84.5.sp),
-          ),
-          Lottie.asset(
+          child: Lottie.asset(
             'assets/Mobilo/M.json',
             // alignment: Alignment(0,14),
             width: 200.sp,
             height: 300.sp,
             // repeat: false
           ),
-        ],
-      )),
+      ),
     );
   }
 }
