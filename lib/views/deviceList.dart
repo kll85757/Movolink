@@ -15,7 +15,12 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 // class DataForSearch extends StatelessWidget {
 
-// }
+
+@override
+void initState() {
+  //页面初始化
+  // super.initState();
+}
 
 // List MenuNun;
 List<String> MenuNun = [
@@ -41,7 +46,7 @@ List TestData = [
         16,
         16,
         1,
-        0,
+        3,
         16,
         80,
         2,
@@ -74,7 +79,7 @@ List TestData = [
         16,
         17,
         1,
-        0,
+        2,
         16,
         80,
         2,
@@ -151,10 +156,12 @@ List TestData = [
 List AllDeviceData;
 List PickedData;
 
+
 class DeviceList extends StatefulWidget {
   List deviceName;
   List data;
   DeviceList({this.deviceName, this.data});
+
 
   @override
   State<StatefulWidget> createState() {
@@ -313,6 +320,8 @@ class HomePage extends StatefulWidget {
 
 class ListState extends State<HomePage> {
   @override
+
+  bool _isTapped = false;
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
@@ -330,6 +339,7 @@ class ListState extends State<HomePage> {
             Container(
               child: titleSection,
             ),
+
             Expanded(
                 flex: 1,
                 child: Column(
@@ -352,7 +362,7 @@ class ListState extends State<HomePage> {
                       childAspectRatio: 2 / 2,
                       //设置itemView
                       children:
-                          initListWidget(context, MenuNun, allDeType, TestData),
+                          initListWidget(context, MenuNun, allDeType, TestData,_isTapped),
                     ),
                   )
               ],
@@ -379,29 +389,46 @@ class ListState extends State<HomePage> {
   }
 }
 
-List<Widget> initListWidget(BuildContext context, List<String> MenuNun,
-    List<String> allDeType, List AllDeviceData) {
+// void stopSearch(BuildContext context) {
+//   setState(() {
+//     isSearchEnd = !isSearchEnd;
+//   });
+// }
+
+List<Widget> initListWidget(BuildContext context, List<String> MenuNun, List<String> allDeType, List AllDeviceData,bool _istapped) {
   List<Widget> lists = [];
+  bool istapped = _istapped;
+
   for (var item in AllDeviceData) {
     // print('${item['name']}');
     lists.add(
-      new Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
+      new GestureDetector(
+        onTap: (){
+          // clickUp();
+          istapped = !istapped;
+
+
+        },
+        child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: !istapped ? [
                 BoxShadow(
-                  color: Colors.black12,
-                  offset: new Offset(3, 3),
-                  blurRadius: 18,
-                )
-              ],
-              border: null,
-              borderRadius: BorderRadius.all(Radius.circular(25.0))),
-          // height: 50.0,
-          // width: 50.0,
-          child: new Center(
-            child: listItem(context, item['name'], item['loc'], item),
-          )),
+                  color: Colors.grey[200],
+                  offset: const Offset(4, 4),
+                  blurRadius: 15,
+                ),
+                ]:null,
+                border: null,
+                borderRadius: BorderRadius.all(Radius.circular(25.0))),
+            // height: 50.0,
+            // width: 50.0,
+            child: new Center(
+              child: listItem(context, item['name'], item['loc'], item),
+            )
+        ),
+      )
     );
   }
   return lists;
@@ -425,6 +452,11 @@ Widget listItem(
   FormatData['Brand'] = BrandText;
   FormatData['BTlife'] = BTlife;
   FormatData['Model'] = '未知型号';
+  FormatData['Area'] = '未知';
+  FormatData['ChargePow'] = '未知';
+  FormatData['Cgr'] = '未知';
+  FormatData['IsCharge'] = false;
+
 
 
   if (MDatas != null && MDatas.length > Mindex) {
@@ -458,6 +490,32 @@ Widget listItem(
 
     }
 
+    //地区
+    Map<int, String> AreaList = {1: '中国', 2: '日本',3:'美国',4:'欧洲',5:'北美',6:'亚太'};
+
+    // var Brandtype = MDatas[0].substring(5);
+    for(var key in AreaList.keys){
+      // print(MDatas[0].substring(1,2));
+      // var Index = int.parse(MDatas[1].substring(1))+1;
+      if(MDatas[0].substring(1,2) == '$key'){
+        // print('$key : ${ModelList[key]}');
+          FormatData['Area'] = '${AreaList[key]}';
+      }
+    }
+
+    //充电器
+    Map<int, String> CgrList = {0: '未知', 1: 'MT-2A',2:'MT-4A',3:'MT-2ch',4:'MT-4ch',5:'未知'};
+
+    // var Brandtype = MDatas[0].substring(5);
+    for(var key in CgrList.keys){
+      // print(MDatas[5].substring(1));
+      // var Index = int.parse(MDatas[1].substring(1))+1;
+      if(MDatas[5].substring(1) == '$key'){
+        // print('$key : ${ModelList[key]}');
+          FormatData['Cgr'] = '${CgrList[key]}';
+      }
+    }
+
 
     var Chargetype = MDatas[3].substring(1);
     // print(Chargetype);
@@ -466,21 +524,25 @@ Widget listItem(
       ChargeColor = tipsColor2;
       IsCharge = false;
       FormatData['ChargerStatus'] = '充电中';
+      FormatData['IsCharge'] = true;
     } else if (Chargetype == '17') {
       ChargerStatus = '放电中';
       ChargeColor = tipsColor2;
       IsCharge = true;
       FormatData['ChargerStatus'] = '放电中';
+      FormatData['IsCharge'] = false;
     } else if (Chargetype == '18') {
       IsCharge = false;
-      ChargerStatus = '充放电中';
+      ChargerStatus = '充放电';
       ChargeColor = tipsColor2;
-      FormatData['ChargerStatus'] = '充放电中';
+      FormatData['ChargerStatus'] = '充放电';
+      FormatData['IsCharge'] = true;
     } else {
       ChargerStatus = '离线设备';
       ChargeColor = tipsColor;
       IsCharge = true;
       FormatData['ChargerStatus'] = '离线设备';
+      FormatData['IsCharge'] = false;
     }
 
     //充电功率计算
@@ -489,7 +551,7 @@ Widget listItem(
         'W';
     FormatData['ChargePow'] = ChargePow;
     if (ChargePow.replaceAll('W', '') == '') {
-      FormatData['ChargePow'] = '';
+      FormatData['ChargePow'] = '未知';
     }
 
     //型号

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:MovoLink/views/StockManager.dart';
 import 'package:MovoLink/views/welcome.dart';
 import 'package:MovoLink/views/deviceInfo.dart';
 import 'package:MovoLink/views/deviceList.dart';
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         initialRoute: 'main', //配置默认访问路径
-        home: HomePage(),
+        home: HomePage(),  
         routes: {
           //需要使用context指定上下文
           // '/wave': (context) => WithBuilder(), //
@@ -132,13 +131,19 @@ class ListState extends State<HomePage> {
       //     children: initListWidget(context,MenuNun),
       // )
       body: Center(
-          child: Lottie.asset(
-            'assets/Mobilo/M.json',
-            // alignment: Alignment(0,14),
-            width: 200.sp,
-            height: 300.sp,
-            // repeat: false
-          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(padding: EdgeInsets.only(right: 7)),
+              Lottie.asset(
+                'assets/Mobilo/M.json',
+                // alignment: Alignment(10,0),
+                width: 200.sp,
+                height: 400.sp,
+                // repeat: false
+              ),
+            ],
+          )
       ),
     );
   }

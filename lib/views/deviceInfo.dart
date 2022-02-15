@@ -22,6 +22,10 @@ class DeviceInfo extends StatefulWidget {
     print(InfoData);
     if(InfoData['Model']=='未知型号'){
       isDeviceUnkown = true;
+      activeColor = tipsColor;
+    }else{
+      activeColor = tipsColor2;
+      isDeviceUnkown = false;
     }
     return InfoPage();
   }
@@ -63,7 +67,7 @@ class MyPainter extends CustomPainter {
     //網格風格
     paint
       ..style = PaintingStyle.stroke //线
-      ..color = luckyGreen
+      ..color = activeColor
       ..strokeWidth = 0.3;
 
     for (int i = 0; i <= 25; ++i) {
@@ -78,9 +82,9 @@ class MyPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(MyPainter oldDelegate) => true;
+  bool shouldRepaint(MyPainter oldDelegate) => false;
   @override
-  bool shouldRebuildSemantics(MyPainter oldDelegate) => true;
+  bool shouldRebuildSemantics(MyPainter oldDelegate) => false;
 }
 
 class InfoPage extends State<DeviceInfo> {
@@ -118,16 +122,16 @@ class InfoState extends State<HomePage> {
         shadowColor: Colors.transparent,
         centerTitle: false,
         iconTheme: IconThemeData(
-          color: activeColor,
+          color: luckyGreen,
         ),
         actionsIconTheme: IconThemeData(
-          color: activeColor,
+          color: luckyGreen,
         ),
         textTheme: TextTheme(
             headline6: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 18,
-          color: activeColor,
+          color: luckyGreen,
         )),
         // titleTextStyle: TextStyle(
         //   color:Colors.black12
@@ -221,7 +225,7 @@ class InfoState extends State<HomePage> {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(25.0)),
-                                          color: luckyGreen,
+                                          color: activeColor,
                                         ),
                                         child: Text(
                                           InfoData['Model'],
@@ -302,12 +306,12 @@ class InfoState extends State<HomePage> {
                                                           color: activeColor),
                                                     ),
                                                     Text(
-                                                      '放电中',
+                                                      InfoData['ChargerStatus'],
                                                       style: TextStyle(
                                                           fontSize: 12.sp,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: tipsColor),
+                                                          color: activeColor),
                                                     ),
                                                   ],
                                                 ),
@@ -320,17 +324,18 @@ class InfoState extends State<HomePage> {
                                                       .size
                                                       .width /
                                                   3,
-                                              height: 40.sp,
+                                              height: 35.sp,
                                               decoration: BoxDecoration(
                                                 color: Colors.white,
+                                                // border:Border(top:BorderSide(color:luckyGreen,width:1)),
                                                 borderRadius: BorderRadius.all(
-                                                    Radius.circular(20.0)),
+                                                    Radius.circular(15.0)),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: Colors.black12,
-                                                    offset: new Offset(3, 3),
-                                                    blurRadius: 18,
-                                                  )
+                                                    color: Colors.grey[200],
+                                                    offset:Offset(2, 2),
+                                                    blurRadius: 10,
+                                                  ),
                                                 ],
                                               ),
                                               child: Row(
@@ -345,7 +350,7 @@ class InfoState extends State<HomePage> {
                                                       padding: EdgeInsets.only(
                                                           right: 5)),
                                                   Text(
-                                                    '产地',
+                                                    '区域',
                                                     style: TextStyle(
                                                       fontSize: 12.sp,
                                                       color: tipsColor,
@@ -366,14 +371,15 @@ class InfoState extends State<HomePage> {
                                                           EdgeInsets.fromLTRB(
                                                               5, 2, 5, 2),
                                                       decoration: BoxDecoration(
+
                                                         borderRadius:
                                                             BorderRadius.all(
                                                                 Radius.circular(
-                                                                    5.0)),
+                                                                    10.0)),
                                                         // color: luckyGreen,
                                                       ),
                                                       child: Text(
-                                                        '中国',
+                                                        InfoData['Area'],
                                                         style: TextStyle(
                                                           fontSize: 12.sp,
                                                           fontWeight:
@@ -431,21 +437,51 @@ class InfoState extends State<HomePage> {
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(
-                                                  FlutterIcons.smile_o_faw,
-                                                  color: activeColor,
-                                                  size: 60.sp,
+
+                                                Offstage(
+                                                  offstage: isDeviceUnkown,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      FlutterIcons.smile_o_faw,
+                                                      color: activeColor,
+                                                      size: 60.sp,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Offstage(
+                                                  offstage: !isDeviceUnkown,
+                                                  child: Center(
+                                                    child: Icon(
+                                                      FlutterIcons.meh_o_faw,
+                                                      color: activeColor,
+                                                      size: 60.sp,
+                                                    ),
+                                                  ),
                                                 ),
                                                 Column(
                                                   children: [
                                                     // Padding(padding: EdgeInsets.only(right:50)),
-                                                    Text(
-                                                      '工作正常',
-                                                      style: TextStyle(
-                                                          fontSize: 16.sp,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: activeColor),
+                                                    Offstage(
+                                                      offstage: isDeviceUnkown,
+                                                      child: Text(
+                                                        '工作正常',
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                            FontWeight.bold,
+                                                            color: activeColor),
+                                                      )
+                                                    ),
+                                                    Offstage(
+                                                      offstage: !isDeviceUnkown,
+                                                      child: Text(
+                                                        '状态未知',
+                                                        style: TextStyle(
+                                                            fontSize: 16.sp,
+                                                            fontWeight:
+                                                            FontWeight.bold,
+                                                            color: activeColor),
+                                                      )
                                                     ),
                                                     Row(
                                                       children: [
@@ -457,7 +493,7 @@ class InfoState extends State<HomePage> {
                                                           size: 27.sp,
                                                         ),
                                                         Text(
-                                                          '25W',
+                                                          InfoData['ChargePow'],
                                                           style: TextStyle(
                                                               fontSize: 16.sp,
                                                               fontWeight:
@@ -491,23 +527,60 @@ class InfoState extends State<HomePage> {
                                                 Padding(
                                                     padding: EdgeInsets.only(
                                                         left: 6)),
-                                                Icon(
-                                                  // FlutterIcons.wi_lightning_wea,
-                                                  FlutterIcons
-                                                      .battery_charging_wireless_outline_mco,
-                                                  color: tipsColor,
-                                                  size: 20.sp,
-                                                ),
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 8)),
-                                                Text(
-                                                  '未连接电源',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: tipsColor,
+                                                Offstage(
+                                                  offstage: InfoData['IsCharge'],
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        // FlutterIcons.wi_lightning_wea,
+                                                        FlutterIcons
+                                                            .battery_charging_wireless_outline_mco,
+                                                        color: tipsColor,
+                                                        size: 20.sp,
+                                                      ),
+                                                      Padding(
+                                                          padding: EdgeInsets.only(
+                                                              left: 8)),
+                                                      Text(
+                                                        '未连接电源',
+                                                        style: TextStyle(
+                                                          fontSize: 16,
+                                                          color: tipsColor,
+                                                        ),
+                                                      ),
+                                                    ]
                                                   ),
                                                 ),
+                                                Offstage(
+                                                  offstage: !InfoData['IsCharge'],
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        // FlutterIcons.wi_lightning_wea,
+                                                        FlutterIcons
+                                                            .battery_charging_wireless_outline_mco,
+                                                        color: luckyGreen,
+                                                        size: 20.sp,
+                                                      ),
+                                                      Padding(
+                                                          padding: EdgeInsets.only(
+                                                              left: 8)),
+                                                      Text(
+                                                        '充电器 '+InfoData['Cgr'],
+                                                        style: TextStyle(
+                                                          fontSize: 14.sp,
+                                                          color: luckyGreen,
+                                                        ),
+                                                      ),
+
+
+
+
+
+                                                    ]
+                                                  ),
+                                                ),
+
                                               ],
                                             ),
                                           ],
@@ -550,6 +623,7 @@ class InfoState extends State<HomePage> {
                                 children: [
                                   Row(
                                     children: [
+
                                       Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -562,30 +636,49 @@ class InfoState extends State<HomePage> {
                                           ),
                                           Padding(
                                               padding: EdgeInsets.only(top: 5)),
-                                          Row(
-                                            children: [
-                                              Image(
-                                                image: AssetImage(
-                                                    'assets/images/gps.png'),
-                                                height: 18,
-                                                width: 18,
-                                              ),
-                                              Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 5)),
-                                              Text(
-                                                '距离你约' +
-                                                    rssiRange(int.parse(
-                                                            InfoData['loc']))
-                                                        .toString() +
-                                                    '米',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: tipsColor,
+
+                                          Offstage(
+                                            offstage: isDeviceUnkown,
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  // FlutterIcons.wi_lightning_wea,
+                                                  FlutterIcons
+                                                      .location_on_mdi,
+                                                  color: activeColor,
+                                                  size: 20.sp,
                                                 ),
-                                              ),
-                                            ],
-                                          )
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 5)),
+                                                Text(
+                                                  '距离你约' +
+                                                      rssiRange(int.parse(
+                                                          InfoData['loc']))
+                                                          .toString() +
+                                                      '米',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: tipsColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),Offstage(
+                                            offstage: !isDeviceUnkown,
+                                            child: Row(
+                                              children: [
+
+                                                Text(
+                                                  '未知',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: tipsColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -617,7 +710,7 @@ class InfoState extends State<HomePage> {
                                     blurRadius: 10,
                                   )
                                 ],
-                                border: Border.all(color: luckyGreen),
+                                border: Border.all(color: activeColor),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(255.0))),
                             height: 50.0,
@@ -631,7 +724,7 @@ class InfoState extends State<HomePage> {
                                       // image: ,
                                       boxShadow: [
                                         BoxShadow(
-                                          color: luckyGreen,
+                                          color: activeColor,
                                           // color: Colors.grey.withOpacity(0.2),
                                           // blurRadius: 20.0,
                                         ),
@@ -661,14 +754,21 @@ class InfoState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
+
+
                                 Positioned(
                                   left: 51.sp,
                                   top: 53.sp,
                                   // alignment:
-                                  child: Lottie.asset(
-                                    'assets/Mobilo/GPSS.json',
-                                    width: 50.sp,
-                                    height: 50.sp,
+                                  child: Offstage(
+                                    offstage: isDeviceUnkown,
+                                    child: Center(
+                                      child: Lottie.asset(
+                                        'assets/Mobilo/GPSL.json',
+                                        width: 50.sp,
+                                        height: 50.sp,
+                                      ),
+                                    ),
                                   ),
                                   // child: Lottie.asset(
                                   //   'assets/lottiefiles/turbine.json',
