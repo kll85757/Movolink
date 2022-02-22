@@ -432,9 +432,9 @@ class dragFakeItem extends StatelessWidget {
         ),
         child: Center(
           child: Icon(
-            FlutterIcons.select_arrows_ent,
-            color: luckyGreen,
-            size: 35.sp,
+            FlutterIcons.copy_fea,
+            color: Colors.grey[300  ],
+            size: 50.sp,
           ),
         ),
     ),

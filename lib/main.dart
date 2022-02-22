@@ -134,7 +134,7 @@ class ListState extends State<HomePage> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(padding: EdgeInsets.only(right: 10.sp)),
+              Padding(padding: EdgeInsets.only(right: 13.sp)),
               Lottie.asset(
                 'assets/Mobilo/M.json',
                 // alignment: Alignment(10,0),
