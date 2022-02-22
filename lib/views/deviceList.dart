@@ -10,8 +10,10 @@ import 'package:flutter/services.dart';
 // import 'package:route_transitions_do/route_transitions_do.dart';
 import 'package:MovoLink/views/deviceInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:progresso/progresso.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
 
 // class DataForSearch extends StatelessWidget {
 
@@ -155,6 +157,7 @@ List TestData = [
 ];
 List AllDeviceData;
 List PickedData;
+bool isDragging = false;
 
 
 class DeviceList extends StatefulWidget {
@@ -224,6 +227,10 @@ Widget titleSection = Container(
                   alignment: Alignment(0, 0),
                   child: TextField(
                       cursorWidth: 1,
+                      onChanged:(text){
+                        print(text);
+                        reSearch(text);
+                      },
                       style: TextStyle(
                         fontSize: 14.0,
                         // height: 5,
@@ -321,6 +328,12 @@ class HomePage extends StatefulWidget {
 class ListState extends State<HomePage> {
   @override
 
+  void draggingToDel() {
+    setState(() {
+
+    });
+  }
+
   bool _isTapped = false;
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -395,22 +408,80 @@ class ListState extends State<HomePage> {
 //   });
 // }
 
+
+
+class dragFakeItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: (MediaQuery.of(context).size.width - 20 * 3) / 2,
+      width: (MediaQuery.of(context).size.width - 20 * 3) / 2,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: 
+                 [
+                    BoxShadow(
+                      color: Colors.grey[200],
+                      offset: const Offset(4, 4),
+                      blurRadius: 15,
+                    ),
+                  ],     
+            border: Border.all(color: Colors.grey[200], width: 0.8),
+            borderRadius: BorderRadius.all(Radius.circular(25.0))
+        ),
+        child: Center(
+          child: Icon(
+            FlutterIcons.select_arrows_ent,
+            color: luckyGreen,
+            size: 35.sp,
+          ),
+        ),
+    ),
+    );
+  }
+}
+
 List<Widget> initListWidget(BuildContext context, List<String> MenuNun, List<String> allDeType, List AllDeviceData,bool _istapped) {
   List<Widget> lists = [];
   bool istapped = _istapped;
+  String data = '离婚';
+  
 
   for (var item in AllDeviceData) {
     // print('${item['name']}');
     lists.add(
-      new GestureDetector(
-        onTap: (){
-          // clickUp();
-          istapped = !istapped;
-
+      new LongPressDraggable<String>(
+        // axis: Axis.vertical,
+        data: data,
+        feedback: dragFakeItem(),
+        childWhenDragging: AnimatedContainer(
+          duration: Duration(seconds: 1),
+          // height: 100.0,
+          // width: 100.0,
+          color: Colors.transparent,
+          child: Center(
+            // child:  Lottie.asset('assets/Mobilo/move.json', width: 100.sp)
+          ),
+        ),
+        onDragStarted: (){
+          print('onDraggableStart');
+          isDragging = true;
+        },
+        onDragCompleted: (){
+          print('onDrag');
 
         },
-        child: AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
+        onDraggableCanceled: (Velocity velocity, Offset offset) {
+          print('onDraggableCanceled');
+        
+        },
+        onDragEnd: (DraggableDetails details) {
+          print('onDragEnd');
+          
+        },
+        child: Container(
+            // duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: !istapped ? [
@@ -424,6 +495,7 @@ List<Widget> initListWidget(BuildContext context, List<String> MenuNun, List<Str
                 borderRadius: BorderRadius.all(Radius.circular(25.0))),
             // height: 50.0,
             // width: 50.0,
+            
             child: new Center(
               child: listItem(context, item['name'], item['loc'], item),
             )
@@ -575,7 +647,7 @@ Widget listItem(
         splashColor: Colors.lightGreen[200],
         // customBorder: Border.all(),
         // focusColor: Colors.lightGreenAccent,
-        hoverColor: Colors.pink,
+        // hoverColor: Colors.pink,
         // highlightColor: Color(0xFFE0E0E0),
         borderRadius: new BorderRadius.circular(20.0),
         onTap: () {
@@ -765,7 +837,6 @@ Widget listItem(
                     fit: FlexFit.loose,
                     child: Container(
                       margin: EdgeInsets.all(5.0),
-                      // child: Text("000000000000000"),
                       color: Colors.transparent,
                     ),
                   ),
@@ -782,11 +853,6 @@ Widget listItem(
                       backgroundColor: Colors.grey[200],
                       backgroundWidth: 5.0,
                     ),
-                    // Image(
-                    //   image: AssetImage('assets/images/happy.png'),
-                    //   height: 40,
-                    //   width: 40,
-                    // )
                   ),
                   Padding(padding: EdgeInsets.only(left: 5)),
                 ],
@@ -800,6 +866,11 @@ Widget listItem(
           ],
         ))),
   );
+}
+
+
+void reSearch(val) {
+
 }
 
 void _goToInfo(BuildContext context, Picked) {
@@ -839,3 +910,4 @@ void _goToInfo(BuildContext context, Picked) {
   // print({new DateTime.now()});
   return;
 }
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:MovoLink/utils/setting.dart';
+import 'package:MovoLink/utils/dragItem.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:lottie/lottie.dart';
@@ -45,6 +46,36 @@ class CustomPaintRoute extends StatelessWidget {
         painter: MyPainter(),
       ),
     );
+  }
+}
+
+class DraggingBg extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return Center(
+      child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: 120.0),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(10, 5, 20, 15),
+            width: MediaQuery.of(context).size.width / 2,
+            height: MediaQuery.of(context).size.width / 2,
+            decoration: BoxDecoration(
+              border: Border.all(color: activeColor, width: 0.8),
+              borderRadius: BorderRadius.all(
+                Radius.circular(25.0),
+              ),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: new Offset(3, 3),
+                  blurRadius: 18,
+                )
+              ],
+            ),
+          )
+      )
+    ); 
   }
 }
 
@@ -133,9 +164,6 @@ class InfoState extends State<HomePage> {
           fontSize: 18,
           color: luckyGreen,
         )),
-        // titleTextStyle: TextStyle(
-        //   color:Colors.black12
-        // ),
       ),
       body: new Container(
           child: Container(
@@ -572,11 +600,6 @@ class InfoState extends State<HomePage> {
                                                           color: luckyGreen,
                                                         ),
                                                       ),
-
-
-
-
-
                                                     ]
                                                   ),
                                                 ),
@@ -594,99 +617,103 @@ class InfoState extends State<HomePage> {
                   ],
                 ),
                 Row(children: [
-                  ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: 120.0),
-                      child: Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 10, 20),
-                        width: MediaQuery.of(context).size.width / 2,
-                        height: MediaQuery.of(context).size.width / 2,
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    offset: new Offset(3, 3),
-                                    blurRadius: 18,
-                                  )
-                                ],
-                                border: null,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25.0))),
-                            height: 50.0,
-                            width: 100.0,
-                            child: new Container(
-                              width: 100,
-                              alignment: Alignment(10, 10),
-                              padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                              child: Row(
-                                children: [
-                                  Row(
+                  
+                      ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: 120.0),
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(20, 5, 10, 20),
+                            width: MediaQuery.of(context).size.width / 2,
+                            height: MediaQuery.of(context).size.width / 2,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        offset: new Offset(3, 3),
+                                        blurRadius: 18,
+                                      )
+                                    ],
+                                    border: null,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25.0))),
+                                height: 50.0,
+                                width: 100.0,
+                                child: new Container(
+                                  width: 100,
+                                  alignment: Alignment(10, 10),
+                                  padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
+                                  child: Row(
                                     children: [
-
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                      Row(
                                         children: [
-                                          Text(
-                                            '位置',
-                                            style: TextStyle(fontSize: 16.sp),
-                                          ),
-                                          Padding(
-                                              padding: EdgeInsets.only(top: 5)),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '位置',
+                                                style: TextStyle(fontSize: 16.sp),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(top: 5)),
 
-                                          Offstage(
-                                            offstage: isDeviceUnkown,
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  // FlutterIcons.wi_lightning_wea,
-                                                  FlutterIcons
-                                                      .location_on_mdi,
-                                                  color: activeColor,
-                                                  size: 20.sp,
+                                              Offstage(
+                                                offstage: isDeviceUnkown,
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      // FlutterIcons.wi_lightning_wea,
+                                                      FlutterIcons
+                                                          .location_on_mdi,
+                                                      color: activeColor,
+                                                      size: 20.sp,
+                                                    ),
+                                                    Padding(
+                                                        padding: EdgeInsets.only(
+                                                            right: 5)),
+                                                    Text(
+                                                      '距离你约' +
+                                                          rssiRange(int.parse(
+                                                              InfoData['loc']))
+                                                              .toString() +
+                                                          '米',
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: tipsColor,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 5)),
-                                                Text(
-                                                  '距离你约' +
-                                                      rssiRange(int.parse(
-                                                          InfoData['loc']))
-                                                          .toString() +
-                                                      '米',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: tipsColor,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),Offstage(
-                                            offstage: !isDeviceUnkown,
-                                            child: Row(
-                                              children: [
+                                              ),Offstage(
+                                                offstage: !isDeviceUnkown,
+                                                child: Row(
+                                                  children: [
 
-                                                Text(
-                                                  '未知',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: tipsColor,
-                                                  ),
+                                                    Text(
+                                                      '未知',
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: tipsColor,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            )),
-                      )),
+                                )),
+                          )
+                        ), 
+                  
+                    
+                  
                   // Positioned(
                   //   child: Lottie.asset(
                   //     'assets/Mobilo/gps.json',
@@ -793,7 +820,9 @@ class InfoState extends State<HomePage> {
                   )
                 ]),
                 Row(
-                  children: [],
+                  children: [
+                    // Draggable(child: Text('11'), feedback: Text('122'))
+                  ],
                 ),
               ],
             ),

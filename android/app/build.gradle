@@ -35,8 +35,9 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.movolink"
-        minSdkVersion 25
-        targetSdkVersion 30
+        minSdkVersion 19
+        targetSdkVersion 31
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

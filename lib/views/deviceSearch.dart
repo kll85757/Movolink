@@ -94,14 +94,14 @@ Widget titleSection(BuildContext context) => Container(
             Offstage(
               offstage: !isSearchEnd,
               child: Center(
-                child: Lottie.asset('assets/lottiefiles/lego_loader.json',
+                child: Lottie.asset('assets/Mobilo/lego_loader.json',
                     width: 300.sp, height: 300.sp, repeat: isSearchEnd),
               ),
             ),
             Offstage(
               offstage: isSearchEnd,
               child: Center(
-                child: Lottie.asset('assets/lottiefiles/done.json',
+                child: Lottie.asset('assets/Mobilo/done.json',
                     width: 200.sp, height: 200.sp, repeat: !isSearchEnd),
               ),
             ),
