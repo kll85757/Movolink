@@ -25,15 +25,18 @@ import 'package:flutter/cupertino.dart';
 //   log("Get radio state: ${await bleManager.bluetoothState()}");
 // }
 bool isSearchEnd = true;
+bool animationPlay = false;
 List<String> allDeviceName = [];
 List allData = [];
 var lastPopTime = null;
+
 
 @override
 void initState() {
   //页面初始化
   // super.initState();
   isSearchEnd = true;
+  animationPlay = false;
 }
 
 class DevieSearch extends StatefulWidget {
@@ -95,14 +98,14 @@ Widget titleSection(BuildContext context) => Container(
               offstage: !isSearchEnd,
               child: Center(
                 child: Lottie.asset('assets/Mobilo/lego_loader.json',
-                    width: 300.sp, height: 300.sp, repeat: isSearchEnd),
+                    width: 300.sp, height: 300.sp, repeat: true),
               ),
             ),
             Offstage(
               offstage: isSearchEnd,
               child: Center(
                 child: Lottie.asset('assets/Mobilo/done.json',
-                    width: 200.sp, height: 200.sp, repeat: !isSearchEnd),
+                    width: 200.sp, height: 200.sp, repeat: animationPlay,),
               ),
             ),
             Row(
@@ -140,6 +143,7 @@ class DevieSearchPage extends State<DevieSearch> {
   void stopSearch(BuildContext context) {
     setState(() {
       isSearchEnd = !isSearchEnd;
+      animationPlay = true;
     });
     lastPopTime = DateTime.now();
     startTime(context);
@@ -197,6 +201,8 @@ class DevieSearchPage extends State<DevieSearch> {
     );
   }
 }
+
+
 
 
 void searchStart() {

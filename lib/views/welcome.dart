@@ -155,7 +155,6 @@ class welcomePage extends State<welcome> {
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButtonLocation: CustomFloatingActionButtonLocation(
           FloatingActionButtonLocation.centerFloat, 0, -40),
-      // appBar: AppBar(title: Text('Welcome'),),
       body: new Container(
         // padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(

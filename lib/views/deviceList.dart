@@ -1,27 +1,39 @@
 import 'dart:async';
+// import 'dart:ffi';
 
-import 'dart:io';
+// import 'dart:io';
+// import 'package:MovoLink/utils/data.dart';
 import 'package:MovoLink/utils/setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 // import 'package:route_transitions_do/route_transitions_do.dart';
 import 'package:MovoLink/views/deviceInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
-import 'package:progresso/progresso.dart';
+// import 'package:lottie/lottie.dart';
+// import 'package:progresso/progresso.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 
-// class DataForSearch extends StatelessWidget {
-
+List AllDeviceData;
+List PickedData;
+List<String> DeviceNameList = [];
+bool isDragging = false;
+Map<String, double> fabSize = {'W': 100, 'H': 0};
+double fabH = 100;
+double fabW = 100;
+var delColorHover = lightPink;
+// bool showDel = true;
 
 @override
 void initState() {
   //页面初始化
   // super.initState();
+  isDragging = false;
+  print(isDragging);
 }
 
 // List MenuNun;
@@ -138,37 +150,26 @@ List TestData = [
     },
     "loc": "-89"
   },
-  {"name": "testdata1", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"},
-  {"name": "testdata2", "mData": {}, "loc": "-87"}
+  {"name": "1", "mData": {}, "loc": "-87"},
+  {"name": "2", "mData": {}, "loc": "-87"},
+  {"name": "3", "mData": {}, "loc": "-87"},
+  {"name": "4", "mData": {}, "loc": "-87"},
+  {"name": "5", "mData": {}, "loc": "-87"},
+  {"name": "6", "mData": {}, "loc": "-87"},
+  {"name": "7", "mData": {}, "loc": "-87"},
+  {"name": "8", "mData": {}, "loc": "-87"},
+  {"name": "9", "mData": {}, "loc": "-87"}
 ];
-List AllDeviceData;
-List PickedData;
-bool isDragging = false;
-
 
 class DeviceList extends StatefulWidget {
   List deviceName;
   List data;
   DeviceList({this.deviceName, this.data});
 
-
   @override
   State<StatefulWidget> createState() {
     MenuNun = deviceName;
+    print(MenuNun);
     AllDeviceData = data;
     // print(deviceName);
     // print(AllDeviceData);
@@ -190,134 +191,6 @@ class ListPage extends State<DeviceList> {
   }
 }
 
-Widget titleSection = Container(
-  padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-  color: Colors.transparent,
-  child: Row(
-    children: [
-      Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-                width: 400,
-                height: 50,
-                child: Container(
-                  // color: Colors.white,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        offset: new Offset(3, 3),
-                        blurRadius: 20,
-                      )
-                    ],
-                    // border: Border.all(
-                    //   color: Colors.green, width: 2.0
-                    // )
-                  ),
-
-                  ///距离顶部
-                  margin: EdgeInsets.only(top: 0),
-                  padding: EdgeInsets.all(0),
-
-                  ///Alignment 用来对齐 Widget
-                  alignment: Alignment(0, 0),
-                  child: TextField(
-                      cursorWidth: 1,
-                      onChanged:(text){
-                        print(text);
-                        reSearch(text);
-                      },
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        // height: 5,
-                        color: Color(0xFF444444),
-                      ),
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        hintText: "输入型号或名称",
-                        contentPadding: EdgeInsets.all(2),
-
-                        ///设置输入文本框的提示文字的样式
-                        hintStyle: TextStyle(color: Colors.grey, height: 2),
-                        alignLabelWithHint: true,
-                        hintMaxLines: 3,
-
-                        ///输入框内的提示 输入框没有获取焦点时显示
-                        // labelText: "",
-                        // labelStyle: TextStyle(color: Color(0xFFe0e0e0)),
-                        ///显示在输入框下面的文字
-                        // helperText: "这里是帮助提示语",
-                        // helperStyle: TextStyle(color: Colors.green),
-
-                        ///显示在输入框下面的文字
-                        ///会覆盖了 helperText 内容
-                        // errorText: "这里是错误文本提示",
-                        // errorStyle: TextStyle(color: Colors.red),
-
-                        ///输入框获取焦点时才会显示出来 输入文本的前面
-                        // prefixText: "prefix",
-                        // prefixStyle: TextStyle(color: Colors.deepPurple),
-                        ///输入框获取焦点时才会显示出来 输入文本的后面
-                        // suffixText: "suf ",
-                        // suffixStyle: TextStyle(color: Colors.black),
-
-                        ///文本输入框右下角显示的文本
-                        ///文字计数器默认使用
-                        // counterText: "count",
-                        // counterStyle:TextStyle(color: Colors.deepPurple[800]),
-
-                        ///输入文字前的小图标
-                        prefixIcon: Icon(Icons.search),
-
-                        ///输入文字后面的小图标
-                        // suffixIcon: Icon(Icons.close),
-                        border: OutlineInputBorder(
-                          ///设置边框四个角的弧度
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-
-                          ///用来配置边框的样式
-                          borderSide: BorderSide.none,
-                          // borderSide: null
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
-                      )),
-                )),
-            Container(
-              margin: EdgeInsets.only(top: 20),
-              color: Colors.transparent,
-              padding: const EdgeInsets.only(bottom: 3.0),
-              child: Row(children: [
-                Text(
-                  'All Device',
-                  maxLines: 4,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Color(0xFF67A419),
-                  ),
-                ),
-              ]),
-            ),
-            Text(
-              '匹配到的设备显示在这里',
-              style: TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  ),
-);
-
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -327,11 +200,283 @@ class HomePage extends StatefulWidget {
 
 class ListState extends State<HomePage> {
   @override
+  String acceptType1 = '';
 
-  void draggingToDel() {
+  void reSearch(String val){
+
     setState(() {
 
     });
+  }
+
+  void draggingToDel() {
+    setState(() {
+      isDragging = true;
+      fabSize['H'] = 100;
+    });
+  }
+
+  void stopDragging() {
+    setState(() {
+      isDragging = false;
+      fabSize['H'] = 0;
+    });
+  }
+
+  void delDevice(Item) {
+    setState(() {
+      fabSize['H'] = 100;
+      //删除该项
+      TestData.remove(Item);
+      delColorHover = lightPink;
+    });
+  }
+
+  void moveTo() {
+    setState(() {
+      fabSize['H'] = 100;
+      delColorHover = luckyPink;
+    });
+  }
+
+  void moveOn() {
+    setState(() {
+      fabSize['H'] = 100;
+      delColorHover = lightPink;
+    });
+  }
+
+  Widget titleSection(){
+    return Container(
+    padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
+    color: Colors.transparent,
+    child: Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                  width: 400,
+                  height: 50,
+                  child: Container(
+                    // color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(10, 0, 0, 0),
+                          offset: new Offset(3, 3),
+                          blurRadius: 20,
+                        )
+                      ],
+                      // border: Border.all(
+                      //   color: Colors.green, width: 2.0
+                      // )
+                    ),
+
+                    ///距离顶部
+                    margin: EdgeInsets.only(top: 0),
+                    padding: EdgeInsets.all(0),
+
+                    ///Alignment 用来对齐 Widget
+                    alignment: Alignment(0, 0),
+                    child: TextField(
+                        cursorWidth: 1,
+                        onChanged: (inputVal) {
+                          //按输入关键字检索设备list
+                          print(inputVal);
+                          reSearch(inputVal);
+                        },
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          // height: 5,
+                          color: Color(0xFF444444),
+                        ),
+                        decoration: InputDecoration(
+                          fillColor: Colors.white,
+                          hintText: "输入型号或名称",
+                          contentPadding: EdgeInsets.all(2),
+
+                          ///设置输入文本框的提示文字的样式
+                          hintStyle: TextStyle(color: Colors.grey, height: 2),
+                          alignLabelWithHint: true,
+                          hintMaxLines: 3,
+
+                          ///输入框内的提示 输入框没有获取焦点时显示
+                          // labelText: "",
+                          // labelStyle: TextStyle(color: Color(0xFFe0e0e0)),
+                          ///显示在输入框下面的文字
+                          // helperText: "这里是帮助提示语",
+                          // helperStyle: TextStyle(color: Colors.green),
+
+                          ///显示在输入框下面的文字
+                          ///会覆盖了 helperText 内容
+                          // errorText: "这里是错误文本提示",
+                          // errorStyle: TextStyle(color: Colors.red),
+
+                          ///输入框获取焦点时才会显示出来 输入文本的前面
+                          // prefixText: "prefix",
+                          // prefixStyle: TextStyle(color: Colors.deepPurple),
+                          ///输入框获取焦点时才会显示出来 输入文本的后面
+                          // suffixText: "suf ",
+                          // suffixStyle: TextStyle(color: Colors.black),
+
+                          ///文本输入框右下角显示的文本
+                          ///文字计数器默认使用
+                          // counterText: "count",
+                          // counterStyle:TextStyle(color: Colors.deepPurple[800]),
+
+                          ///输入文字前的小图标
+                          prefixIcon: Icon(Icons.search),
+
+                          ///输入文字后面的小图标
+                          // suffixIcon: Icon(Icons.close),
+                          border: OutlineInputBorder(
+                            ///设置边框四个角的弧度
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+
+                            ///用来配置边框的样式
+                            borderSide: BorderSide.none,
+                            // borderSide: null
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                        )),
+                  )),
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                color: Colors.transparent,
+                padding: const EdgeInsets.only(bottom: 3.0),
+                child: Row(children: [
+                  Text(
+                    'All Device',
+                    maxLines: 4,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Color(0xFF67A419),
+                    ),
+                  ),
+                ]),
+              ),
+              Text(
+                '匹配到的设备显示在这里',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+  List<Widget> initListWidget(BuildContext context, List<String> MenuNun, List<String> allDeType, List AllDeviceData, bool _istapped) {
+    List<Widget> lists = [];
+    bool istapped = _istapped;
+    // print(AllDeviceData);
+    if (AllDeviceData.isEmpty) {
+      print('空的');
+      // lists.add(Center(
+      //   child: Text('空的'),
+      // ));
+    }
+
+    // List.generate(100,(int index){
+    //   return AnimationConfiguration.staggeredGrid(
+    //     position: index,
+    //     duration: const Duration(milliseconds: 375),
+    //     columnCount: 3,
+    //     child: ScaleAnimation(
+    //       child: FadeInAnimation(
+    //         child: Text('1'),
+    //       ),
+    //     ),
+    //   );
+    // });
+
+    for (var item in AllDeviceData) {
+      // print();
+      // DeviceNameList.add('${item['name']}');
+      var data = item;
+      lists.add(
+        StatefulBuilder(
+          builder: (BuildContext context, setState) {
+            return new LongPressDraggable<Map>(
+              // axis: Axis.vertical,
+              data: data,
+              feedback: dragFakeItem(),
+              childWhenDragging: AnimatedContainer(
+                duration: Duration(seconds: 1),
+                // height: 100.0,
+                // width: 100.0,
+                color: Colors.transparent,
+                child: Center(
+                    // child:  Lottie.asset('assets/Mobilo/move.json', width: 100.sp)
+                    ),
+              ),
+              onDragStarted: () {
+                // print('onDraggableStart');
+                draggingToDel();
+                print(isDragging);
+                print('开始');
+              },
+              onDragCompleted: () {
+                stopDragging();
+                print('删除成功');
+              },
+              onDraggableCanceled: (Velocity velocity, Offset offset) {
+                stopDragging();
+                // print('onDraggableCanceled');
+              },
+              onDragEnd: (DraggableDetails details) {
+                stopDragging();
+                print('onDragEnd');
+              },
+              child:new AnimationConfiguration.staggeredList(
+                position: 1,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: Container(
+                        // duration: Duration(milliseconds: 10),
+                        // curve: Curves.fastOutSlowIn,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromARGB(10, 0, 0, 0),
+                                offset: const Offset(4, 4),
+                                blurRadius: 15,
+                              ),
+                            ],
+                            border: null,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
+                        // height: 50.0,
+                        // width: 50.0,
+                        child: new Center(
+                          child: listItem(
+                              context, item['name'], item['loc'], item),
+                        )),
+                  ),
+                ),
+              ),
+              
+              
+            );
+          },
+        ),
+      );
+    }
+    return lists;
   }
 
   bool _isTapped = false;
@@ -339,6 +484,55 @@ class ListState extends State<HomePage> {
     // TODO: implement build
     return Scaffold(
       appBar: null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: new Visibility(
+          visible: true,
+          maintainAnimation: false,
+          // maintainSize: false,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 200),
+            height: fabSize['H'],
+            width: (MediaQuery.of(context).size.width - 20 * 2),
+            // padding: ,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Color.fromARGB(226, 255, 255, 255),
+            ),
+            child: DragTarget<Map>(
+              builder: (BuildContext context, List<dynamic> acceptd,
+                  List<dynamic> rejected) {
+                return AnimatedContainer(
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.circular(15),
+                    // ),
+                    duration: Duration(seconds: 1),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 2.sp, color: delColorHover),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Visibility(
+                          visible: isDragging,
+                          child: Icon(
+                            FlutterIcons.delete_ant,
+                            color: delColorHover,
+                            size: 40.sp,
+                          ),
+                        )));
+              },
+              onAccept: (data) {
+                delDevice(data);
+                print('acc');
+              },
+              onMove: (data) {
+                moveTo();
+                // print('move');
+              },
+              onLeave: (data) {
+                moveOn();
+              },
+            ),
+          )),
       body: new Container(
         decoration: BoxDecoration(
             image: new DecorationImage(
@@ -350,54 +544,64 @@ class ListState extends State<HomePage> {
           // child: titleSection,
           child: Column(children: [
             Container(
-              child: titleSection,
+              child: titleSection(),
             ),
-
             Expanded(
                 flex: 1,
                 child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height -200,
-                    // constraints: BoxConstraints.expand(),
-                    child: GridView.count(
-                      padding: EdgeInsets.fromLTRB(20, 14, 20, 20),
-                      //一行多少个
-                      crossAxisCount: 2,
-                      //滚动方向
-                      scrollDirection: Axis.vertical,
-                      // 左右间隔
-                      crossAxisSpacing: 20.0,
-                      // 上下间隔
-                      mainAxisSpacing: 20.0,
-                      //宽高比
-                      childAspectRatio: 2 / 2,
-                      //设置itemView
-                      children:
-                          initListWidget(context, MenuNun, allDeType, TestData,_isTapped),
-                    ),
-                  )
-              ],
-            ))
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height - 200,
+                      // child: ListView.builder(
+                      //   itemCount: 100,
+                      //   itemBuilder: (BuildContext context, int index) {
+                      //     return AnimationConfiguration.staggeredList(
+                      //       position: index,
+                      //       duration: const Duration(milliseconds: 375),
+                      //       child: SlideAnimation(
+                      //         verticalOffset: 50.0,
+                      //         child: FadeInAnimation(
+                      //           child: Text('11'),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // ),
+                      child: GridView.count(
+                          padding: EdgeInsets.fromLTRB(20, 14, 20, 20),
+                          //一行多少个
+                          crossAxisCount: 2,  
+                          //滚动方向
+                          scrollDirection: Axis.vertical,
+                          // 左右间隔
+                          crossAxisSpacing: 20.0,
+                          // 上下间隔
+                          mainAxisSpacing: 20.0,
+                          //宽高比
+                          childAspectRatio: 2 / 2,
+                          //设置itemView
+                          // children: List.generate(100,(int index){
+                          //   return AnimationConfiguration.staggeredGrid(
+                          //     position: index,
+                          //     duration: const Duration(milliseconds: 375),
+                          //     columnCount: 3,
+                          //     child: ScaleAnimation(
+                          //       child: FadeInAnimation(
+                          //         child: Text('1'),
+                          //       ),
+                          //     ),
+                          //   );
+                          // })
+                          children: initListWidget(context, MenuNun, allDeType,
+                              TestData, _isTapped)
+                      ),
+                    )
+                  ],
+                ))
           ]),
         ),
       ),
-      // body: GridView.count(
-      //   padding: EdgeInsets.all(5.0),
-      //   //一行多少个
-      //   crossAxisCount: 2,
-      //   //滚动方向
-      //   scrollDirection: Axis.vertical,
-      //   // 左右间隔
-      //   crossAxisSpacing: 5.0,
-      //   // 上下间隔
-      //   mainAxisSpacing: 5.0,
-      //   //宽高比
-      //   childAspectRatio: 2 / 2,
-      //   //设置itemView
-      //   children: initListWidget(context, MenuNun),
-      // )
     );
   }
 }
@@ -408,8 +612,6 @@ class ListState extends State<HomePage> {
 //   });
 // }
 
-
-
 class dragFakeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -419,96 +621,31 @@ class dragFakeItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: 
-                 [
-                    BoxShadow(
-                      color: Colors.grey[200],
-                      offset: const Offset(4, 4),
-                      blurRadius: 15,
-                    ),
-                  ],     
+            boxShadow: [
+              // BoxShadow(
+              //   color: Colors.grey[200],
+              //   offset: const Offset(4, 4),
+              //   blurRadius: 15,
+              // ),
+            ],
             border: Border.all(color: Colors.grey[200], width: 0.8),
-            borderRadius: BorderRadius.all(Radius.circular(25.0))
-        ),
+            borderRadius: BorderRadius.all(Radius.circular(25.0))),
         child: Center(
           child: Icon(
             FlutterIcons.copy_fea,
-            color: Colors.grey[300  ],
+            color: Colors.grey[300],
             size: 50.sp,
           ),
         ),
-    ),
+      ),
     );
   }
-}
-
-List<Widget> initListWidget(BuildContext context, List<String> MenuNun, List<String> allDeType, List AllDeviceData,bool _istapped) {
-  List<Widget> lists = [];
-  bool istapped = _istapped;
-  String data = '离婚';
-  
-
-  for (var item in AllDeviceData) {
-    // print('${item['name']}');
-    lists.add(
-      new LongPressDraggable<String>(
-        // axis: Axis.vertical,
-        data: data,
-        feedback: dragFakeItem(),
-        childWhenDragging: AnimatedContainer(
-          duration: Duration(seconds: 1),
-          // height: 100.0,
-          // width: 100.0,
-          color: Colors.transparent,
-          child: Center(
-            // child:  Lottie.asset('assets/Mobilo/move.json', width: 100.sp)
-          ),
-        ),
-        onDragStarted: (){
-          print('onDraggableStart');
-          isDragging = true;
-        },
-        onDragCompleted: (){
-          print('onDrag');
-
-        },
-        onDraggableCanceled: (Velocity velocity, Offset offset) {
-          print('onDraggableCanceled');
-        
-        },
-        onDragEnd: (DraggableDetails details) {
-          print('onDragEnd');
-          
-        },
-        child: Container(
-            // duration: const Duration(milliseconds: 200),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: !istapped ? [
-                BoxShadow(
-                  color: Colors.grey[200],
-                  offset: const Offset(4, 4),
-                  blurRadius: 15,
-                ),
-                ]:null,
-                border: null,
-                borderRadius: BorderRadius.all(Radius.circular(25.0))),
-            // height: 50.0,
-            // width: 50.0,
-            
-            child: new Center(
-              child: listItem(context, item['name'], item['loc'], item),
-            )
-        ),
-      )
-    );
-  }
-  return lists;
 }
 
 //宫格菜单Widget
 Widget listItem(
     BuildContext context, String menuText, String deType, Map Mdata) {
+
   var title = menuText,
       Mindex = 11,
       MDatas = Mdata['mData'].toString().split(','),
@@ -529,8 +666,6 @@ Widget listItem(
   FormatData['Cgr'] = '未知';
   FormatData['IsCharge'] = false;
 
-
-
   if (MDatas != null && MDatas.length > Mindex) {
     //厂家
     var Brandtype = MDatas[0].substring(5);
@@ -549,45 +684,62 @@ Widget listItem(
     }
 
     //型号
-    Map<int, String> ModelList = {1: '工程样品', 2: 'MTBK98',3:'MTBK147',4:'MT-BK9808S/RC'};
+    Map<int, String> ModelList = {
+      1: '工程样品',
+      2: 'MTBK98',
+      3: 'MTBK147',
+      4: 'MT-BK9808S/RC'
+    };
 
     // var Brandtype = MDatas[0].substring(5);
-    for(var key in ModelList.keys){
+    for (var key in ModelList.keys) {
       // print('$key : ${ModelList[key]}');
       // var Index = int.parse(MDatas[1].substring(1))+1;
-      if(MDatas[1].substring(1) == '$key'){
+      if (MDatas[1].substring(1) == '$key') {
         // print('$key : ${ModelList[key]}');
-          FormatData['Model'] = '${ModelList[key]}';
+        FormatData['Model'] = '${ModelList[key]}';
       }
-
     }
 
     //地区
-    Map<int, String> AreaList = {1: '中国', 2: '日本',3:'美国',4:'欧洲',5:'北美',6:'亚太'};
+    Map<int, String> AreaList = {
+      1: '中国',
+      2: '日本',
+      3: '美国',
+      4: '欧洲',
+      5: '北美',
+      6: '亚太'
+    };
 
     // var Brandtype = MDatas[0].substring(5);
-    for(var key in AreaList.keys){
+    for (var key in AreaList.keys) {
       // print(MDatas[0].substring(1,2));
       // var Index = int.parse(MDatas[1].substring(1))+1;
-      if(MDatas[0].substring(1,2) == '$key'){
+      if (MDatas[0].substring(1, 2) == '$key') {
         // print('$key : ${ModelList[key]}');
-          FormatData['Area'] = '${AreaList[key]}';
+        FormatData['Area'] = '${AreaList[key]}';
       }
     }
 
     //充电器
-    Map<int, String> CgrList = {0: '未知', 1: 'MT-2A',2:'MT-4A',3:'MT-2ch',4:'MT-4ch',5:'未知'};
+    Map<int, String> CgrList = {
+      0: '未知',
+      1: 'MT-2A',
+      2: 'MT-4A',
+      3: 'MT-2ch',
+      4: 'MT-4ch',
+      5: '未知'
+    };
 
     // var Brandtype = MDatas[0].substring(5);
-    for(var key in CgrList.keys){
+    for (var key in CgrList.keys) {
       // print(MDatas[5].substring(1));
       // var Index = int.parse(MDatas[1].substring(1))+1;
-      if(MDatas[5].substring(1) == '$key'){
+      if (MDatas[5].substring(1) == '$key') {
         // print('$key : ${ModelList[key]}');
-          FormatData['Cgr'] = '${CgrList[key]}';
+        FormatData['Cgr'] = '${CgrList[key]}';
       }
     }
-
 
     var Chargetype = MDatas[3].substring(1);
     // print(Chargetype);
@@ -635,7 +787,7 @@ Widget listItem(
     FormatData['BTlife'] = BTlife;
   }
 
-  print(FormatData);
+  // print(FormatData);
 
   return Card(
     color: Colors.white,
@@ -694,10 +846,8 @@ Widget listItem(
                   child: Container(
                       padding: EdgeInsets.fromLTRB(5, 2.5, 5, 2.5),
                       decoration: BoxDecoration(
-                        // boxShadow: [new BoxShadow(color: ChargeColor,blurRadius:1)],
                         border: Border.all(color: ChargeColor, width: 1),
                         borderRadius: BorderRadius.all(Radius.circular(3.0)),
-                        // color: luckyGreen,
                       ),
                       child: Row(
                         children: [
@@ -868,11 +1018,6 @@ Widget listItem(
   );
 }
 
-
-void reSearch(val) {
-
-}
-
 void _goToInfo(BuildContext context, Picked) {
   Timer _timer;
   int count = 1;
@@ -910,4 +1055,3 @@ void _goToInfo(BuildContext context, Picked) {
   // print({new DateTime.now()});
   return;
 }
-

@@ -12,10 +12,19 @@ import 'package:fluro/fluro.dart';
 import 'utils/application.dart';
 import 'utils/routers.dart';
 
+
 // import 'package:MovoLink/wave.dart';
 
-void main() {
+Future<void> main()  async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,   // 竖屏 Portrait 模式
+      DeviceOrientation.portraitDown, 
+      // DeviceOrientation.landscapeLeft, // 横屏 Landscape 模式
+      // DeviceOrientation.landscapeRight,
+    ],
+  );
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
   // ScreenUtil.instance = ScreenUtil(width: 750, height: 1334);
   runApp(MyApp());
@@ -134,7 +143,7 @@ class ListState extends State<HomePage> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(padding: EdgeInsets.only(right: 13.sp)),
+              Padding(padding: EdgeInsets.only(right: 9.5.sp)),
               Lottie.asset(
                 'assets/Mobilo/M.json',
                 // alignment: Alignment(10,0),
